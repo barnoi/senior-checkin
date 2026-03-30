@@ -1,65 +1,53 @@
-import Image from "next/image";
+'use client';
+import { useState } from 'react';
 
-export default function Home() {
+export default function SeniorPage() {
+  const [checkedIn, setCheckedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckIn = () => {
+    setLoading(true);
+    // כרגע זה רק מדמה לחיצה, בהמשך נחבר ל-Supabase
+    setTimeout(() => {
+      setCheckedIn(true);
+      setLoading(false);
+    }, 1000);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="flex flex-col items-center justify-center min-h-screen bg-[#FDFCF8] p-6 text-center">
+      <header className="mb-16">
+        <h1 className="text-5xl font-black text-slate-800 mb-3">בוקר טוב אמא ❤️</h1>
+        <p className="text-xl text-slate-500 font-medium">מה שלומך היום?</p>
+      </header>
+
+      {!checkedIn ? (
+        <button
+          onClick={handleCheckIn}
+          disabled={loading}
+          className={`
+            w-72 h-72 rounded-full text-4xl font-bold shadow-[0_20px_50px_rgba(34,197,94,0.3)] 
+            transition-all active:scale-90 border-[12px] border-white flex items-center justify-center
+            ${loading ? 'bg-slate-300' : 'bg-[#22C55E] hover:bg-[#16A34A] text-white cursor-pointer'}
+          `}
+        >
+          {loading ? 'שולח...' : 'אני בסדר! ✅'}
+        </button>
+      ) : (
+        <div className="flex flex-col items-center animate-in fade-in zoom-in duration-500">
+          <div className="w-72 h-72 rounded-full bg-blue-50 text-blue-600 flex flex-col items-center justify-center border-4 border-blue-100 shadow-inner">
+            <span className="text-7xl mb-3">✔️</span>
+            <span className="text-2xl font-bold">המשפחה עודכנה</span>
+          </div>
+          <p className="mt-8 text-lg text-slate-400 font-medium italic">
+            לחיצה אחת וזהו. נתראה מחר!
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      )}
+
+      <footer className="mt-20">
+        <p className="text-slate-300 text-sm uppercase tracking-widest font-bold">Senior Check-In</p>
+      </footer>
+    </main>
   );
 }
