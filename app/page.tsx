@@ -1,10 +1,10 @@
 'use client';
 import { useState } from 'react';
-// ה-Import החדש והמעודכן:
+// 1. שינוי ה-Import לזה:
 import { createClient } from '@supabase/supabase-js';
 
 export default function SeniorPage() {
-  // יצירת החיבור ל-Supabase בצורה ישירה
+  // 2. יצירת ה-Client בצורה ישירה (ללא Helpers)
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -12,29 +12,25 @@ export default function SeniorPage() {
   
   const [checkedIn, setCheckedIn] = useState(false);
   const [loading, setLoading] = useState(false);
-  
-  // ... שאר הקוד נשאר אותו דבר
-  
-  // ... שאר הקוד נשאר אותו דבר
+
   const handleCheckIn = async () => {
     setLoading(true);
-    
+   
     try {
-      // 1. שמירת הלחיצה ב-Supabase
+      // 3. שמירה בטבלה
       const { error } = await supabase
         .from('checkins')
         .insert([{ status: 'ok' }]);
 
       if (error) throw error;
 
-      // 2. קריאה ל-API של המייל (שיצרנו קודם)
+      // 4. שליחת מייל
       await fetch('/api/send', { method: 'POST' });
-
-      // עדכון התצוגה להצלחה
+      
       setCheckedIn(true);
-    } catch (error) {
-      console.error("Error:", error);
-      alert("משהו השתבש, נסי שוב ❤️");
+    } catch (err) {
+      console.error("Supabase Error:", err);
+      alert("שגיאה בחיבור. ודאי שהמפתחות ב-env תקינים");
     } finally {
       setLoading(false);
     }
