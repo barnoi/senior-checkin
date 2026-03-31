@@ -14,6 +14,8 @@ export default function SeniorPage() {
   const [loading, setLoading] = useState(false);
   
   // ... שאר הקוד נשאר אותו דבר
+  
+  // ... שאר הקוד נשאר אותו דבר
   const handleCheckIn = async () => {
     setLoading(true);
     
