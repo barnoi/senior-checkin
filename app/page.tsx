@@ -1,37 +1,59 @@
 'use client';
 import { useState } from 'react';
+// ה-Import החדש והמעודכן:
+import { createClient } from '@supabase/supabase-js';
 
 export default function SeniorPage() {
+  // יצירת החיבור ל-Supabase בצורה ישירה
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  
   const [checkedIn, setCheckedIn] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const handleCheckIn = () => {
+  
+  // ... שאר הקוד נשאר אותו דבר
+  const handleCheckIn = async () => {
     setLoading(true);
-    // כרגע זה רק מדמה לחיצה, בהמשך נחבר ל-Supabase
-    setTimeout(() => {
+    
+    try {
+      // 1. שמירת הלחיצה ב-Supabase
+      const { error } = await supabase
+        .from('checkins')
+        .insert([{ status: 'ok' }]);
+
+      if (error) throw error;
+
+      // 2. קריאה ל-API של המייל (שיצרנו קודם)
+      await fetch('/api/send', { method: 'POST' });
+
+      // עדכון התצוגה להצלחה
       setCheckedIn(true);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("משהו השתבש, נסי שוב ❤️");
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-[#FDFCF8] p-6 text-center">
       <header className="mb-16">
         <h1 className="text-5xl font-black text-slate-800 mb-3">בוקר טוב אמא ❤️</h1>
-        <p className="text-xl text-slate-500 font-medium">מה שלומך היום?</p>
+        <p className="text-xl text-slate-500">מה שלומך היום?</p>
       </header>
 
       {!checkedIn ? (
         <button
           onClick={handleCheckIn}
           disabled={loading}
-          className={`
-            w-72 h-72 rounded-full text-4xl font-bold shadow-[0_20px_50px_rgba(34,197,94,0.3)] 
-            transition-all active:scale-90 border-[12px] border-white flex items-center justify-center
-            ${loading ? 'bg-slate-300' : 'bg-[#22C55E] hover:bg-[#16A34A] text-white cursor-pointer'}
-          `}
+          className={`w-72 h-72 rounded-full text-4xl font-bold shadow-2xl transition-all active:scale-95 border-12 border-white flex items-center justify-center ${
+            loading ? 'bg-slate-300' : 'bg-[#22C55E] text-white hover:bg-[#1ea34d]'
+          }`}
         >
-          {loading ? 'שולח...' : 'אני בסדר! ✅'}
+          {loading ? 'מעדכן...' : 'אני בסדר! ✅'}
         </button>
       ) : (
         <div className="flex flex-col items-center animate-in fade-in zoom-in duration-500">
@@ -39,14 +61,12 @@ export default function SeniorPage() {
             <span className="text-7xl mb-3">✔️</span>
             <span className="text-2xl font-bold">המשפחה עודכנה</span>
           </div>
-          <p className="mt-8 text-lg text-slate-400 font-medium italic">
-            לחיצה אחת וזהו. נתראה מחר!
-          </p>
+          <p className="mt-8 text-slate-400 italic">!לחיצה אחת וזהו. נתראה מחר</p>
         </div>
       )}
 
-      <footer className="mt-20">
-        <p className="text-slate-300 text-sm uppercase tracking-widest font-bold">Senior Check-In</p>
+      <footer className="absolute bottom-8 text-slate-300 text-sm tracking-widest uppercase">
+        Senior Check-In
       </footer>
     </main>
   );
