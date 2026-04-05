@@ -1,77 +1,101 @@
 'use client';
 import { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
-
-// 1. הלקוח תמיד מחוץ לפונקציה כדי למנוע את ה"צהוב" בטרמינל
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 export default function Page() {
-  // 2. כל ה-Hooks חייבים להיות בתוך הפונקציה
   const [checkedIn, setCheckedIn] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // רשימת בני המשפחה - כאן הילדים יוכלו לעדכן את הפרטים שלהם
+  const family = [
+    { name: "דני", phone: "0501112222", img: "https://i.pravatar.cc/150?u=1" },
+    { name: "מיכל", phone: "0543334444", img: "https://i.pravatar.cc/150?u=2" },
+    { name: "נועה", phone: "0525556666", img: "https://i.pravatar.cc/150?u=3" },
+    { name: "יוסי", phone: "0537778888", img: "https://i.pravatar.cc/150?u=4" },
+  ];
 
   const handleCheckIn = async () => {
     setLoading(true);
     try {
-      // שמירה ב-Supabase
-      const { error } = await supabase
-        .from('checkins')
-        .insert([{ status: 'ok' }]);
-
-      if (error) throw error;
-
-      // שליחת הודעה (ווטסאפ/מייל)
+      // כאן יבוא החיבור ל-API של הווטסאפ שנפתח בהמשך
       await fetch('/api/send', { method: 'POST' });
-      
       setCheckedIn(true);
     } catch (err) {
-      console.error("Supabase Error:", err);
-      alert("שגיאה בחיבור. ודאי שהמפתחות ב-env תקינים");
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
-
-  // 3. ה-Return (העיצוב המאיר והנפחי)
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-[#FDFCF8] p-6 text-center font-sans">
-      <header className="mb-16">
-        <h1 className="text-5xl font-black text-slate-800 mb-3 tracking-tight">בוקר טוב אמא ❤️</h1>
-        <p className="text-xl text-slate-500 font-medium italic">מה שלומך היום?</p>
-      </header>
+    <main className="relative min-h-screen bg-[#FDFCF8] flex flex-col items-center justify-center p-6 overflow-hidden font-sans" dir="rtl">
+      
+      {/* כותרת עליונה */}
+      <div className="absolute top-12 text-center animate-in fade-in slide-in-from-top duration-700">
+        <h1 className="text-4xl font-black text-slate-800 tracking-tight">בוקר טוב אמא ❤️</h1>
+        <p className="text-slate-400 font-bold mt-2 italic">כולם כאן איתך</p>
+      </div>
 
-      {!checkedIn ? (
-        <button
-          onClick={handleCheckIn}
-          disabled={loading}
-          className={`
-            w-72 h-72 rounded-full text-4xl font-black shadow-2xl transition-all 
-            flex items-center justify-center border-white border-8
-            ${loading 
-              ? 'bg-slate-300' 
-              : 'bg-[#22C55E] text-white hover:translate-y-1 active:translate-y-4 active:shadow-inner border-b-[16px] border-green-700 shadow-[0_20px_40px_rgba(34,197,94,0.4)]'
-            }
-          `}
-        >
-          {loading ? 'מעדכן...' : 'אני בסדר! ✅'}
-        </button>
-      ) : (
-        <div className="flex flex-col items-center animate-in fade-in zoom-in duration-500">
-          <div className="w-72 h-72 rounded-full bg-blue-50 text-blue-600 flex flex-col items-center justify-center border-8 border-white shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
-            <span className="text-7xl mb-3">✔️</span>
-            <span className="text-2xl font-black">המשפחה עודכנה</span>
-          </div>
-          <p className="mt-8 text-slate-400 font-bold italic tracking-wide">
-            לחיצה אחת וזהו. נתראה מחר!
-          </p>
+      {/* אזור הלחצן והתמונות המפוזרות */}
+      <div className="relative flex items-center justify-center w-full max-w-sm aspect-square">
+        
+        {/* פיזור תמונות בני המשפחה מסביב */}
+        <div className="absolute inset-0">
+          {family.map((member, index) => {
+            // חישוב זוויות לפיזור מסביב לעיגול
+            const angles = [45, 135, 225, 315]; 
+            const angle = angles[index % angles.length];
+            const radius = 135; // מרחק מהמרכז
+            
+            return (
+              <a
+                key={member.name}
+                href={`tel:${member.phone}`}
+                className="absolute transition-all hover:scale-115 active:scale-90 z-20"
+                style={{
+                  transform: `rotate(${angle}deg) translate(${radius}px) rotate(-${angle}deg)`,
+                  left: 'calc(50% - 36px)', 
+                  top: 'calc(50% - 36px)',
+                }}
+              >
+                <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full border-4 border-white shadow-xl overflow-hidden bg-white ring-2 ring-slate-100">
+                  <img 
+                    src={member.img} 
+                    alt={member.name} 
+                    className="w-full h-full object-cover grayscale-15 hover:grayscale-0 transition-all" 
+                  />
+                </div>
+              </a>
+            );
+          })}
         </div>
-      )}
 
-      <footer className="absolute bottom-8 text-slate-300 text-xs tracking-[0.3em] font-bold uppercase opacity-50">
-        SeniorSafe © 2026
+        {/* הלחצן המרכזי הירוק */}
+        {!checkedIn ? (
+          <button
+            onClick={handleCheckIn}
+            disabled={loading}
+            className="
+              relative z-10 w-48 h-48 sm:w-56 sm:h-56 rounded-full text-3xl font-black
+              bg-[#22C55E] text-white border-green-7 border-8
+              border-b-16 border-green-700
+              shadow-[0_20px_50px_rgba(34,197,94,0.3)]
+              active:translate-y-4 active:border-b-0
+              transition-all duration-75
+              flex items-center justify-center
+            "
+          >
+            {loading ? 'שולח...' : 'אני בסדר! ✅'}
+          </button>
+        ) : (
+          <div className="relative z-10 w-48 h-48 sm:w-56 sm:h-56 rounded-full bg-white flex flex-col items-center justify-center border-8 border-slate-50 shadow-inner animate-in zoom-in duration-500">
+             <span className="text-6xl mb-2">✨</span>
+             <span className="text-xl font-black text-blue-600">הודעה נשלחה</span>
+             <span className="text-sm text-slate-400 mt-1 font-bold">אוהבים אותך!</span>
+          </div>
+        )}
+      </div>
+
+      {/* קרדיט תחתון עדין */}
+      <footer className="absolute bottom-8 opacity-20 text-[10px] font-black uppercase tracking-[0.4em] text-slate-900">
+        SeniorSafe • Family Circle
       </footer>
     </main>
   );
