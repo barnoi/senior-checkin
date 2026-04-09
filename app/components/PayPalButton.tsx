@@ -12,7 +12,7 @@ export default function PayPalButton({ amount, onSuccess }: PayPalProps) {
     if (!document.getElementById('paypal-sdk')) {
       const script = document.createElement('script');
       script.id = 'paypal-sdk';
-      script.src = `https://www.paypal.com/sdk/js?client-id=AasYqR0I1gISlBltl-9cgv71rFHkTpRQY6SvyU_q3-ADwanvgVAUE2PZFg27iglcxVMfyys68HbWAkLa&currency=ILS`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=ILS`;
       script.async = true;
       script.addEventListener('load', () => {
         renderButtons();

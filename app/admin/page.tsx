@@ -95,7 +95,7 @@ export default function AdminPage() {
                         onBlur={(e) => updateMember(member.id, { image_url: e.target.value })}
                         placeholder="https://..."
                       />
-                      <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md flex-shrink-0 bg-slate-200">
+                      <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0 bg-slate-200">
                         <img 
                           src={member.image_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}`} 
                           alt="" 

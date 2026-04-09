@@ -1,105 +1,252 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import PayPalButton from '../components/PayPalButton';
+import { supabase } from '../lib/supabase';
 
+// חשוב מאוד: לוודא שיש כאן את המילה export default function
 export default function LandingPage() {
   const [showPayment, setShowPayment] = useState(false);
   const [paid, setPaid] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const testimonials = [
+    { name: "מיכל כהן", role: "בת לניצול שואה", text: "זה שינה לנו את הבוקר. במקום להתקשר בלחץ, אני מקבלת הודעה כשהיא שותה את הקפה." },
+    { name: "דני לוי", role: "בן להורה יחיד", text: "סוף סוף אבא מרגיש שאני לא מעיק עליו, ואני רגוע שהוא התעורר והכל בסדר." },
+    { name: "רחל אברהם", role: "סבתא ל-12", text: "הכפתור הירוק כל כך פשוט. אני לוחצת וכל הילדים שלי יודעים מיד שאני בסדר." },
+    { name: "יוסי מזרחי", role: "מנהל הייטק", text: "השירות הזה נותן לי שקט נפשי באמצע יום עבודה עמוס. פשוט ויעיל." },
+    { name: "אורית גל", role: "בת להורים בקיבוץ", text: "התראת ה-'לא עודכן' היא מצילת חיים. פעם אחת אמא שכחה והלכנו לבדוק אותה מיד." },
+    { name: "שמואל כץ", role: "גמלאי", text: "אני מרגיש בטוח יותר בידיעה שהמשפחה שלי מחוברת אליי בלחיצת כפתור." }
+  ];
+
+  if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-white font-sans text-right" dir="rtl">
-      {/* Navigation */}
-      <nav className="flex justify-between items-center p-6 max-w-6xl mx-auto">
-        <div className="text-2xl font-black text-blue-600">SeniorSafe</div>
-        <div className="flex gap-4">
-          <Link href="/" className="bg-slate-100 text-slate-900 px-5 py-2 rounded-full font-bold hover:bg-slate-200 transition">כניסה</Link>
+    <div className="min-h-screen bg-white text-right text-slate-900" dir="rtl" suppressHydrationWarning>
+      {/* Navbar */}
+      <nav className="p-6 max-w-6xl mx-auto flex justify-between items-center border-b border-slate-50 sticky top-0 bg-white/80 backdrop-blur-md z-50">
+        <div className="text-2xl font-black text-blue-600 tracking-tighter">SeniorSafe</div>
+        <div className="flex gap-6 items-center">
+          <Link href="/about" className="text-slate-500 font-bold hover:text-blue-600 transition text-sm">הסיפור שלנו</Link>
+          <Link href="/" className="bg-slate-100 px-4 py-2 rounded-lg text-slate-700 font-bold hover:bg-blue-600 hover:text-white transition text-sm">כניסה למערכת</Link>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <header className="bg-linear-to-b from-blue-50 to-white py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <span className="bg-yellow-100 text-yellow-700 px-4 py-1 rounded-full text-sm font-bold mb-6 inline-block">🚀 הצעה מיוחדת: מנוי מייסדים לכל החיים (Pre-sale)</span>
-          <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-8 leading-tight">
-            השקט הנפשי שלכם <br />
-            <span className="text-blue-600">מתחיל כאן.</span>
+      <header className="py-12 px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center text-right">
+        <div>
+          <span className="bg-blue-50 text-blue-800 px-3 py-1 rounded-lg text-xs font-bold mb-4 inline-block italic">
+            SENIORSAFE • פותח על ידי מרפאה בעיסוק מומחית לגיל השלישי
+          </span>
+          <h1 className="text-4xl md:text-5xl font-black mb-6 leading-tight text-slate-800 tracking-tight">
+            הדרך המכבדת לשמור <br/>
+            על <span className="text-blue-600">העצמאות של ההורים.</span>
           </h1>
-          <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-            במקום להתקשר בלחץ כל בוקר, קבלו הודעת ווטסאפ מרגיעה כשאבא או אמא מעדכנים שהכל בסדר. פשוט, מכבד ומרגיע.
+          <h2 className="text-xl md:text-2xl font-semibold text-slate-600 mb-6 leading-relaxed">
+            השקט הנפשי שלכם, החופש שלהם. 
+          </h2>
+          <p className="text-lg text-slate-500 mb-8 leading-relaxed max-w-lg font-medium">
+            בלי שיחות תחקור מעיקות ובלי להפריע לסדר היום. 
+            מערכת עדכון בוקר שמאפשרת להורים לשלוח "הכל בסדר" בלחיצת כפתור אחת פשוטה.
           </p>
+          <button 
+            onClick={() => document.getElementById('offer')?.scrollIntoView({ behavior: 'smooth' })}
+            className="bg-blue-600 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-blue-700 transition shadow-xl hover:scale-105"
+          >
+            אני רוצה להצטרף למייסדים
+          </button>
+        </div>
+
+        <div className="relative justify-self-center">
+          <div className="bg-slate-900 p-3 rounded-[3rem] shadow-2xl max-w-65 transform rotate-2">
+             <div className="bg-green-500 w-full aspect-9/19 rounded-[2.5rem] flex flex-col items-center justify-center text-white p-6 text-center">
+                <div className="w-20 h-20 bg-white/20 rounded-full border-2 border-white/50 mb-6 animate-pulse flex items-center justify-center text-3xl">🟢</div>
+                <div className="text-xl font-bold">הכל בסדר!</div>
+                <div className="text-xs opacity-90 mt-2 font-light italic">הודעה נשלחה לכל המשפחה</div>
+             </div>
+          </div>
         </div>
       </header>
 
-      {/* Pricing Section - האזור החדש עם פייפל */}
-      <section id="pricing" className="py-20 px-6 bg-slate-900 text-white rounded-[3rem] mx-4 shadow-2xl overflow-hidden relative">
-        <div className="max-w-md mx-auto text-center relative z-10">
-          {!paid ? (
-            <>
-              {!showPayment ? (
-                <div className="animate-in fade-in duration-700">
-                  <div className="bg-yellow-400 text-slate-900 font-bold px-4 py-1 rounded-full text-sm inline-block mb-6 uppercase tracking-wider">
-                    נשארו 50 יחידות אחרונות
-                  </div>
-                  <h2 className="text-3xl font-bold mb-2 italic">חבילת Founders</h2>
-                  <div className="text-7xl font-black mb-2 text-yellow-400">₪99</div>
-                  <div className="text-xl opacity-50 line-through mb-4 italic">במקום מנוי חודשי של ₪49</div>
-                  <p className="text-lg font-bold mb-10 text-blue-300">תשלום חד-פעמי - גישה לכל החיים!</p>
-                  
-                  <ul className="text-right space-y-4 mb-10 text-lg">
-                    <li className="flex items-center gap-3">✅ <span>עד 5 בני משפחה מקבלים עדכון בווטסאפ</span></li>
-                    <li className="flex items-center gap-3">✅ <span>לוח ניהול אישי להוספת הורים ואנשי קשר</span></li>
-                    <li className="flex items-center gap-3">✅ <span>כפתור חיוג מהיר לחירום מובנה</span></li>
-                  </ul>
+      {/* הסיפור האישי */}
+      <section className="py-16 px-6 bg-blue-50/50 border-y border-blue-100 font-medium leading-relaxed">
+        <div className="max-w-4xl mx-auto text-right">
+          <h2 className="text-3xl font-black text-slate-800 mb-8 underline decoration-blue-500 decoration-4 underline-offset-8">למה פיתחתי את SeniorSafe?</h2>
+          <div className="prose prose-lg text-slate-700">
+            <p className="mb-4">
+              נעים מאוד, אני מרפאה בעיסוק, עובדת עם הדור השלישי ובת להורים מבוגרים. במשך שנים ראיתי את המורכבות הזו מהצד המקצועי...
+            </p>
+            <p className="mb-4">
+              הסיפור האישי שלי התחיל בכל בוקר מחדש, כשהלב שלי היה מחסיר פעימה: <span className="text-blue-700 italic font-bold">"האם להתקשר עכשיו? אולי הם עוד ישנים? אולי קרה משהו והם לא יכולים לענות?"</span>
+            </p>
+            <p className="mb-6 italic text-slate-600">
+              מצאתי את עצמי במלכודת – מצד אחד דאגה עמוקה, ומצד שני חוסר נעימות להפוך כל שיחה ל"בדיקת נוכחות" מעיקה. הבנתי שחסר לנו גשר דיגיטלי חם ומכבד. 
+            </p>
+          </div>
+        </div>
+      </section>
 
-                  <button 
-                    onClick={() => setShowPayment(true)}
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white text-2xl font-black py-6 rounded-2xl transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(59,130,246,0.4)]"
-                  >
-                    אני רוצה להצטרף עכשיו
-                  </button>
-                </div>
+      {/* Pain Points */}
+      <section className="py-20 px-6 text-center">
+        <h2 className="text-2xl font-black mb-10 italic text-slate-700">המתח שבלב, כל בוקר מחדש...</h2>
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto font-bold">
+          <div className="bg-white p-8 rounded-3xl shadow-md border border-slate-100 italic text-slate-600">"לחכות לטלפון בבוקר ולתהות אם הכל בסדר..."</div>
+          <div className="bg-white p-8 rounded-3xl shadow-md border border-slate-100 italic text-slate-600">"להרגיש שאני מעיקה עליהם כשאני רק רוצה לוודא..."</div>
+          <div className="bg-white p-8 rounded-3xl shadow-md border border-slate-100 italic text-slate-600">"החשש שהם שכחו להודיע, אבל הלב כבר בלחץ."</div>
+        </div>
+      </section>
+
+      {/* Steps Section */}
+      <section id="steps" className="py-20 bg-slate-100 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-black text-center mb-16">איך זה עובד? ב-4 שלבים פשוטים</h2>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { num: "01", title: "נרשמים", desc: "בוחרים עד 5 בני משפחה שיקבלו את העדכונים." },
+              { num: "02", title: "הלחיצה", desc: "ההורה לוחץ על הכפתור הירוק בבוקר מהנייד." },
+              { num: "03", title: "שקט", desc: "כל המשפחה מקבלת הודעה אוטומטית שהכל בסדר." },
+              { num: "04", title: "ביטחון", desc: "התראה מיידית אם לא בוצע עדכון בזמן שנקבע." }
+            ].map((step, i) => (
+              <div key={i} className="p-8 bg-white rounded-3xl shadow-sm text-center border border-slate-200">
+                <div className="text-blue-500 font-black text-4xl mb-4">{step.num}</div>
+                <h3 className="font-black text-lg mb-2 text-slate-800">{step.title}</h3>
+                <p className="text-slate-500 text-sm font-medium leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 px-6 bg-white">
+        <div className="max-w-6xl mx-auto text-right">
+          <h2 className="text-3xl font-black text-center mb-16 text-slate-800 tracking-tighter italic">מה המשפחות שלנו אומרות</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((t, i) => (
+              <div key={i} className="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-lg transition italic">
+                <p className="text-slate-600 mb-6 text-sm font-medium leading-relaxed">"{t.text}"</p>
+                <div className="font-black text-slate-800 text-sm">{t.name}</div>
+                <div className="text-blue-600 text-xs font-bold">{t.role}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="offer" className="py-24 px-6 text-center">
+        <div className="max-w-3xl mx-auto bg-slate-900 rounded-[3.5rem] p-12 text-white relative overflow-hidden shadow-2xl border-b-12 border-blue-600">
+          <div className="bg-blue-600 text-white px-6 py-2 rounded-full font-black absolute -top-1 left-1/2 transform -translate-x-1/2 text-sm uppercase tracking-widest">
+             נשארו 50 מקומות אחרונים למייסדים
+          </div>
+          <div className="mt-6">
+            <h3 className="text-4xl font-black mb-4">חבילת Founders</h3>
+            <div className="flex justify-center items-center gap-6 mb-4">
+               <span className="text-slate-500 line-through text-2xl font-bold">₪49 לחודש</span>
+               <span className="text-7xl font-black text-white tracking-tighter">₪199</span>
+            </div>
+            <p className="text-xl font-black mb-10 text-blue-400 italic underline">תשלום חד-פעמי לכל החיים!</p>
+            <div className="max-w-sm mx-auto">
+              {!paid ? (
+                !showPayment ? (
+                  <button onClick={() => setShowPayment(true)} className="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-2xl hover:bg-blue-700 transition shadow-xl active:scale-95 animate-bounce">אני רוצה להצטרף</button>
+                ) : (
+                  <div className="bg-white p-6 rounded-2xl shadow-inner min-h-37.5 flex flex-col items-center justify-center">
+                    <p className="text-xs text-blue-600 font-black mb-4 italic">** מצב בדיקה פעיל: המחיר הוא 1 ש"ח **</p>
+                    <PayPalButton 
+                      amount="1.00" 
+                      onSuccess={async (details) => {
+                        try {
+                          const { data: { user } } = await supabase.auth.getUser();
+                          if (user) {
+                            await supabase.from('customers').upsert({ 
+                              id: user.id, 
+                              email: user.email, 
+                              payment_status: 'paid', 
+                              plan_type: 'founder_lifetime' 
+                            });
+                          }
+                          setPaid(true);
+                          setTimeout(() => {
+                            window.location.href = "/admin";
+                          }, 2000);
+                        } catch (e) { 
+                          setPaid(true); 
+                          window.location.href = "/admin";
+                        }
+                      }} 
+                    />
+                  </div>
+                )
               ) : (
-                <div className="bg-white p-8 rounded-3xl text-slate-900 shadow-inner animate-in slide-in-from-bottom duration-500">
-                  <h3 className="text-2xl font-bold mb-2">השלמת רכישה</h3>
-                  <p className="text-slate-500 mb-6 text-sm">התשלום מאובטח באמצעות PayPal</p>
-                  
-                  {/* קריאה לרכיב הפייפל שיצרנו */}
-                  <PayPalButton 
-                    amount="99.00" 
-                    onSuccess={(details) => {
-                      console.log("Success:", details);
-                      setPaid(true);
-                    }} 
-                  />
-                  
-                  <button onClick={() => setShowPayment(false)} className="text-sm text-slate-400 mt-6 underline block w-full text-center hover:text-slate-600 transition">
-                    חזרה למסלולים
-                  </button>
+                <div className="text-green-400 font-black p-4 bg-green-400/10 rounded-2xl border border-green-400/30 text-xl text-center">
+                  🎉 ברוכים הבאים למשפחת SeniorSafe!<br/>
+                  מעביר אתכם למערכת...
                 </div>
               )}
-            </>
-          ) : (
-            <div className="py-10 animate-in zoom-in duration-500">
-              <div className="text-7xl mb-6">⭐</div>
-              <h2 className="text-3xl font-bold mb-4 text-yellow-400">תודה רבה!</h2>
-              <p className="text-xl opacity-90 mb-8 leading-relaxed">ההרשמה למסלול המייסדים הושלמה בהצלחה. השקט הנפשי שלכם מתחיל עכשיו.</p>
-              <Link href="/" className="inline-block bg-green-500 text-white px-12 py-4 rounded-full font-bold text-xl hover:bg-green-600 transition shadow-xl">
-                כניסה למערכת
-              </Link>
             </div>
-          )}
+          </div>
+        </div>
+      </section>
+
+      {/* Referral System Section */}
+      <section className="py-20 px-6 bg-blue-600 text-white text-center">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-5xl mb-6">🎁</div>
+          <h2 className="text-3xl font-black mb-4 italic text-white">אוהבים לעזור? קבלו מנוי מתנה!</h2>
+          <p className="text-xl mb-10 opacity-90 font-medium leading-relaxed">
+            הפיצו את הבשורה ל-5 חברים שזקוקים לשקט נפשי. <br/>
+            ברגע ש-5 מהם מצטרפים, תקבלו <span className="underline decoration-yellow-400 decoration-4 text-white">מנוי לכל החיים במתנה</span> להעניק לאדם אהוב!
+          </p>
+          
+          <div className="bg-white/10 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/20 inline-block w-full max-w-xl text-right">
+            <div className="space-y-4 mb-10 font-bold">
+              <div className="flex gap-4 items-start">
+                <span className="bg-yellow-400 text-blue-900 w-8 h-8 rounded-full flex items-center justify-center font-black shrink-0">1</span>
+                <p>משתפים את הקישור שלכם בווטסאפ או בפייסבוק.</p>
+              </div>
+              <div className="flex gap-4 items-start">
+                <span className="bg-yellow-400 text-blue-900 w-8 h-8 rounded-full flex items-center justify-center font-black shrink-0">2</span>
+                <p>החברים נרשמים ומקבלים גם הם שקט נפשי.</p>
+              </div>
+              <div className="flex gap-4 items-start">
+                <span className="bg-yellow-400 text-blue-900 w-8 h-8 rounded-full flex items-center justify-center font-black shrink-0">3</span>
+                <p>מקבלים מאיתנו קוד קופון למנוי חינם נוסף.</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-4">
+              <input 
+                type="text" 
+                readOnly 
+                value="https://senior.communicateclever.com" 
+                className="flex-1 bg-white/20 border border-white/30 rounded-xl px-4 py-3 text-sm font-mono text-center outline-none text-white"
+              />
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText("מצאתי פתרון מדהים לשקט נפשי עם ההורים המבוגרים. שווה לבדוק: https://senior.communicateclever.com");
+                  alert("הקישור הועתק! עכשיו אפשר להדביק בווטסאפ.");
+                }}
+                className="bg-yellow-400 text-blue-900 px-8 py-3 rounded-xl font-black hover:bg-yellow-300 transition shadow-lg"
+              >
+                העתקת קישור
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-white text-slate-400 py-16 px-6 text-center text-sm">
-        <div className="flex justify-center gap-8 mb-8 font-bold text-slate-600">
-          <Link href="/terms" className="hover:text-blue-600 transition">תנאי שימוש</Link>
-          <Link href="/privacy" className="hover:text-blue-600 transition">פרטיות</Link>
-          <Link href="/support" className="hover:text-blue-600 transition">תמיכה</Link>
+      <footer className="py-12 border-t border-slate-100 text-center text-slate-400 text-xs font-bold">
+        <div className="flex justify-center gap-6 mb-6 text-slate-600 underline">
+          <Link href="/terms">תנאי שימוש</Link>
+          <Link href="/privacy">פרטיות</Link>
         </div>
-        <p className="tracking-widest opacity-50 uppercase">SeniorSafe © 2026. PROTECTING WHAT MATTERS.</p>
+        <p className="tracking-widest opacity-60 italic text-slate-500">© 2026 SeniorSafe • גשר דיגיטלי בין דורות • hello@communicateclever.com</p>
       </footer>
     </div>
   );
