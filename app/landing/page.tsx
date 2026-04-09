@@ -248,6 +248,6 @@ export default function LandingPage() {
         </div>
         <p className="tracking-widest opacity-60 italic text-slate-500">© 2026 SeniorSafe • גשר דיגיטלי בין דורות • hello@communicateclever.com</p>
       </footer>
-    </div>
-  );
-}
+   </div>
+    );
+  }
