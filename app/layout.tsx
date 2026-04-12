@@ -8,12 +8,11 @@ const heebo = Heebo({
   weight: ["300", "400", "500", "700", "900"],
   variable: "--font-heebo",
 });
-
 export const metadata: Metadata = {
   title: "SeniorSafe | שקט נפשי למשפחה",
-  description: "עדכון בוקר קל ונוח מההורים ישירות לווטסאפ של הילדים",
+  description: "עדכון בוקר קל ונוח מההורים ישירות לוואטסאפ של הילדים",
+  manifest: "/manifest.json",
 };
-
 export default function RootLayout({
   children,
 }: {
@@ -21,7 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="he" dir="rtl">
-      <body className={`${heebo.variable} ${heebo.className} antialiased`}>
+      <body 
+        className={`${heebo.variable} ${heebo.className} antialiased`}
+        suppressHydrationWarning={true}
+      >
         {children}
       </body>
     </html>

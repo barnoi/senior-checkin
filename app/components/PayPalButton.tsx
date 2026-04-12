@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface PayPalProps {
   amount: string;
@@ -7,24 +7,16 @@ interface PayPalProps {
 }
 
 export default function PayPalButton({ amount, onSuccess }: PayPalProps) {
-  useEffect(() => {
-    // בדיקה אם הסקריפט כבר קיים כדי למנוע כפילויות
-    if (!document.getElementById('paypal-sdk')) {
-      const script = document.createElement('script');
-      script.id = 'paypal-sdk';
-      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=ILS`;
-      script.async = true;
-      script.addEventListener('load', () => {
-        renderButtons();
-      });
-      document.body.appendChild(script);
-    } else {
-      renderButtons();
-    }
+  const containerRef = useRef<HTMLDivElement>(null);
 
-    function renderButtons() {
+  useEffect(() => {
+    // 1. פונקציית הרינדור
+    const renderButtons = () => {
       // @ts-ignore
-      if (window.paypal && window.paypal.Buttons) {
+      if (window.paypal && window.paypal.Buttons && containerRef.current) {
+        // ניקוי ידני של תוכן המכולה כדי למנוע כפילויות לפני רינדור חדש
+        containerRef.current.innerHTML = ''; 
+        
         // @ts-ignore
         window.paypal.Buttons({
           style: {
@@ -52,14 +44,27 @@ export default function PayPalButton({ amount, onSuccess }: PayPalProps) {
             console.error("PayPal Error:", err);
             alert("הייתה שגיאה בתשלום, אנא נסו שנית.");
           }
-        }).render('#paypal-button-container');
+        }).render(containerRef.current);
       }
+    };
+
+    // 2. בדיקה וטעינת הסקריפט
+    if (!document.getElementById('paypal-sdk')) {
+      const script = document.createElement('script');
+      script.id = 'paypal-sdk';
+      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=ILS`;
+      script.async = true;
+      script.onload = renderButtons;
+      document.body.appendChild(script);
+    } else {
+      renderButtons();
     }
   }, [amount, onSuccess]);
 
   return (
     <div className="w-full">
-      <div id="paypal-button-container"></div>
+      {/* שימוש ב-ref במקום ב-ID גלובלי מבטיח שליטה טובה יותר */}
+      <div ref={containerRef} className="min-h-[150px]"></div>
     </div>
   );
 }

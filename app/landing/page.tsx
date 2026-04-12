@@ -27,14 +27,27 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-white text-right text-slate-900" dir="rtl" suppressHydrationWarning>
-      {/* Navbar */}
-      <nav className="p-6 max-w-6xl mx-auto flex justify-between items-center border-b border-slate-50 sticky top-0 bg-white/80 backdrop-blur-md z-50">
-        <div className="text-2xl font-black text-blue-600 tracking-tighter">SeniorSafe</div>
-        <div className="flex gap-6 items-center">
-          <Link href="/about" className="text-slate-500 font-bold hover:text-blue-600 transition text-sm">הסיפור שלנו</Link>
-          <Link href="/" className="bg-slate-100 px-4 py-2 rounded-lg text-slate-700 font-bold hover:bg-blue-600 hover:text-white transition text-sm">כניסה למערכת</Link>
-        </div>
-      </nav>
+      {/* Navbar המעודכן בתוך LandingPage */}
+<nav className="p-6 max-w-6xl mx-auto flex justify-between items-center border-b border-slate-50 sticky top-0 bg-white/80 backdrop-blur-md z-50">
+  <div className="text-2xl font-black text-blue-600 tracking-tighter">SeniorSafe</div>
+  <div className="flex gap-6 items-center">
+    <Link href="/about" className="text-slate-500 font-bold hover:text-blue-600 transition text-sm">הסיפור שלנו</Link>
+    
+    {/* כאן השינוי - הכפתור יבצע כניסה ויעבור לאפליקציה */}
+    <button 
+      onClick={() => {
+        const email = prompt("אנא הזן את האימייל שאיתו נרשמת:");
+        if (email) {
+          localStorage.setItem('senior_user_email', email);
+          window.location.href = "/checkin";
+        }
+      }}
+      className="bg-slate-100 px-4 py-2 rounded-lg text-slate-700 font-bold hover:bg-blue-600 hover:text-white transition text-sm"
+    >
+      כניסה למערכת
+    </button>
+  </div>
+</nav>
 
       {/* Hero Section */}
       <header className="py-12 px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center text-right">
@@ -239,7 +252,49 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+     {/* FAQ Section */}
+<section className="py-20 px-6 bg-slate-50">
+  <div className="max-w-4xl mx-auto">
+    <h2 className="text-3xl font-black text-center mb-12 text-slate-800">שאלות ותשובות (FAQ)</h2>
+    <div className="space-y-6 text-right" dir="rtl">
+      
+      {/* טיפ למסך הבית */}
+      <div className="bg-blue-50 p-6 rounded-2xl shadow-sm border border-blue-100">
+        <h3 className="font-black text-lg text-blue-700 mb-2">איך מוסיפים את SeniorSafe כ"אייקון" על מסך הבית של אמא?</h3>
+        <p className="text-slate-700 font-medium">
+          פתחו את האתר בטלפון של אמא. באייפון: לחצו על כפתור ה-<strong>"שתף" (הריבוע עם החץ למעלה)</strong> ובחרו <strong>"הוסף למסך הבית"</strong>. באנדרואיד: לחצו על שלוש הנקודות בצד ובחרו <strong>"הוסף למסך הבית"</strong>. עכשיו האפליקציה תופיע לה ליד הוואטסאפ!
+        </p>
+      </div>
 
+      {/* הסבר על ה-URL */}
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        <h3 className="font-black text-lg text-blue-600 mb-2">איך אני מוצא/ת קישור (URL) לתמונה של המלווה?</h3>
+        <p className="text-slate-600 font-medium">
+          הדרך הכי פשוטה: העלו תמונה לוואטסאפ (דרך המחשב), לחצו עליה עם המקש הימני ובחרו <strong>"העתק כתובת תמונה"</strong>. 
+          <br/>
+          <span className="text-sm text-slate-400">טיפ: אפשר גם להשתמש באתרים כמו postimg.cc כדי להעלות תמונה ולקבל "Direct Link".</span>
+        </p>
+      </div>
+
+      {/* פורמט טלפונים */}
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        <h3 className="font-black text-lg text-blue-600 mb-2">מהו פורמט מספר הטלפון הנכון?</h3>
+        <p className="text-slate-600 font-medium">
+          יש להזין מספרים בפורמט בינלאומי ללא סימנים. לדוגמה: <strong>972541234567</strong> (במקום 054).
+        </p>
+      </div>
+
+      {/* ביטחון */}
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        <h3 className="font-black text-lg text-blue-600 mb-2">מה קורה אם אמא שוכחת לעדכן?</h3>
+        <p className="text-slate-600 font-medium">
+          אל דאגה. אם עד השעה שקבעתם לא התקבל עדכון, המערכת תשלח הודעת וואטסאפ אוטומטית לכל המלווים כדי שתדעו ליצור קשר.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
       {/* Footer */}
       <footer className="py-12 border-t border-slate-100 text-center text-slate-400 text-xs font-bold">
         <div className="flex justify-center gap-6 mb-6 text-slate-600 underline">
