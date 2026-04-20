@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
 export async function POST(req: Request) {
-  // קריאת הפרמטרים ששלחנו מה-Frontend
-  const { type, targetPhone, message } = await req.json();
+  // הוספנו את email לרשימת הפרמטרים שמגיעים מה-Frontend
+  const { type, targetPhone, message, email } = await req.json();
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -19,8 +19,6 @@ export async function POST(req: Request) {
   try {
     // --- תרחיש 1: שליחה אישית (לחיצה על תמונה) ---
     if (type === 'private' && targetPhone) {
-      console.log(`--- שליחת הודעה אישית ל: ${targetPhone} ---`);
-      
       const response = await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -35,28 +33,31 @@ export async function POST(req: Request) {
     }
 
     // --- תרחיש 2: שליחה כללית (לחיצה על "אני בסדר") ---
-    console.log("--- תחילת תהליך שליחה כללית ורישום לחיצה ---");
-    
-    // 1. רישום הלחיצה בטבלת checkins (רק בלחיצה הכללית!)
+    if (!email) {
+      return NextResponse.json({ error: 'Email is required for broadcast' }, { status: 400 });
+    }
+
+    // 1. רישום הלחיצה בטבלת checkins
     const { error: checkinError } = await supabase
       .from('checkins')
       .insert([{ 
         status: 'ok',
+        customer_email: email, // הוספת המייל לרישום ה-checkin
         created_at: new Date().toISOString() 
       }]);
 
     if (checkinError) console.error('שגיאה ברישום:', checkinError.message);
 
-    // 2. משיכת כל אנשי הקשר
+    // 2. משיכת אנשי הקשר המסוננים לפי המייל של המשתמש בלבד
     const { data: contacts, error: dbError } = await supabase
       .from('contacts')
-      .select('phone');
+      .select('phone')
+      .eq('customer_email', email); // הסינון הקריטי שמונע שליחה למשתמשים אחרים
 
     if (dbError) throw dbError;
 
-    // 3. שליחת הודעות לכולם
+    // 3. שליחת הודעות רק לאנשי הקשר של אותו משתמש
     if (contacts && contacts.length > 0) {
-      // נשתמש ב-Promise.all כדי לשלוח לכולם במקביל (מהיר יותר מ-for loop)
       await Promise.all(contacts.map(contact => 
         fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
           method: 'POST',
@@ -70,7 +71,7 @@ export async function POST(req: Request) {
       ));
     }
 
-    return NextResponse.json({ success: true, mode: 'broadcast' });
+    return NextResponse.json({ success: true, mode: 'broadcast', count: contacts?.length || 0 });
 
   } catch (err: any) {
     console.error('שגיאה כללית:', err.message);

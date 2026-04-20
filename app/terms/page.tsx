@@ -1,40 +1,61 @@
-export default function LegalPage() {
+'use client';
+import Link from 'next/link';
+import { Scale, ArrowRight, AlertTriangle } from 'lucide-react';
+
+export default function TermsPage() {
   return (
-    <div className="max-w-4xl mx-auto p-12 text-right dir-rtl font-sans leading-relaxed text-slate-800" dir="rtl">
-      <h1 className="text-4xl font-black mb-10 text-slate-900">תנאי שימוש ומדיניות פרטיות</h1>
-      
-      {/* הגישה החיובית והמאירה */}
-      <section className="mb-12 bg-green-50 p-8 rounded-3xl border border-green-100">
-        <h2 className="text-2xl font-bold mb-4 text-green-900 italic">החזון שלנו: תקשורת משפחתית קרובה</h2>
-        <p className="text-lg">
-          SeniorSafe נולדה מתוך רצון להוסיף אור ורוגע ליומיום של המשפחה. השירות נועד להוות גשר דיגיטלי חם, המאפשר להורים לעדכן בנגיעה אחת שהם התחילו את היום בכיף, ולבנים ובנות לקבל את העדכון הזה תוך כדי שגרת העבודה והחיים העמוסה. 
-          <strong> אנחנו כאן כדי להחליף את הלחץ בחיוך.</strong>
-        </p>
-      </section>
+    <div className="min-h-screen bg-white font-sans text-right p-8 md:p-20" dir="rtl">
+      <div className="max-w-3xl mx-auto">
+        <header className="mb-12 border-b border-slate-100 pb-8">
+          <Scale size={48} className="text-slate-900 mb-4" />
+          <h1 className="text-4xl font-black text-slate-900 mb-2">תנאי שימוש</h1>
+          <p className="text-slate-500 font-medium text-lg italic">SeniorSafe - הסכם שימוש</p>
+          <p className="text-slate-400 text-sm mt-4">עודכן לאחרונה: אפריל 2026</p>
+        </header>
 
-      {/* הבהרה משפטית (השכפ"ץ שלך) */}
-      <section className="mb-10">
-        <h2 className="text-2xl font-bold mb-4 italic">1. מהות השירות והגבלת אחריות</h2>
-        <p className="text-lg mb-4">
-          השירות הינו כלי עזר לניהול תקשורת משפחתית בלבד. המערכת מסתמכת על תשתיות צד שלישי (כגון רשתות סלולריות, אינטרנט, שירותי WhatsApp ושרתים).
-        </p>
-        <ul className="list-disc pr-6 space-y-2 text-slate-700 bg-slate-50 p-6 rounded-xl">
-          <li><strong>אי-זמינות טכנית:</strong> החברה אינה אחראית לעיכובים או אי-שליחת הודעות הנובעים מתקלות תקשורת, חוסר קליטה במכשיר הקצה, או תקלות מכניות שאינן בשליטתה.</li>
-          <li><strong>לא שירות חירום:</strong> השירות אינו מהווה תחליף ללחצן מצוקה, למענה רפואי או להשגחה פיזית. בכל מקרה של חשש דחוף, יש לפעול בדרכי התקשורת המקובלות (טלפון/ביקור).</li>
-          <li><strong>הסתמכות:</strong> השימוש בשירות הוא באחריות המשתמש. אנו עושים הכל כדי שהמערכת תהיה יציבה, אך אין להסתמך עליה כעל מקור מידע בלעדי במצבי סיכון.</li>
-        </ul>
-      </section>
+        <section className="space-y-8 text-slate-700 leading-relaxed">
+          <div className="bg-red-50 border-2 border-red-100 p-6 rounded-4xl flex items-start gap-4">
+            <AlertTriangle className="text-red-600 shrink-0 mt-1" size={24} />
+            <div>
+              <h2 className="text-red-900 font-black text-lg mb-1 italic underline">הבהרה משפטית קריטית</h2>
+              <p className="text-red-800 text-sm leading-relaxed font-bold">
+                SeniorSafe אינה מערכת הצלת חיים ואינה תחליף למוקדי חירום (מד"א, משטרה). השירות נועד לסיוע בתקשורת משפחתית בלבד. החברה אינה אחראית לכל נזק, פגיעה או אובדן כתוצאה מהסתמכות על השירות למקרי חירום רפואיים.
+              </p>
+            </div>
+          </div>
 
-      <section className="mb-10 border-t pt-8 italic">
-        <h2 className="text-xl font-bold mb-4">2. פרטיות</h2>
-        <p>
-          מספרי הטלפון שלכם נשמרים אצלנו כפיקדון של אמון. הם משמשים אך ורק למשלוח הודעות הווטסאפ המשפחתיות שלכם. 
-        </p>
-      </section>
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">1. הסכמה לתנאים</h2>
+            <p>השימוש באפליקציה מהווה הסכמה מלאה ובלתי חוזרת לתנאים המפורטים בדף זה. במידה ואינך מסכים/ה לאחד התנאים, עליך להפסיק את השימוש בשירות באופן מיידי.</p>
+          </div>
 
-      <footer className="mt-20 pt-8 border-t text-sm text-slate-400 text-center uppercase">
-        לכל שאלה: <span dir="ltr">054-6060011</span> | SeniorSafe 2026
-      </footer>
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">2. הגבלת אחריות טכנית</h2>
+            <p>אספקת השירות תלויה בתקינות רשת האינטרנט, המכשיר הסלולרי של המשתמש וספקי שירות צד ג'. החברה אינה מתחייבת שהשירות יפעל ללא תקלות, השהיות או הפרעות ולא תישא באחריות למקרה בו הודעת עדכון לא הגיעה ליעדה מכל סיבה שהיא.</p>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">3. שימוש הוגן ואחריות המשתמש</h2>
+            <p>המשתמש אחראי באופן בלעדי על דיוק הנתונים שהזין (מספרי טלפון ושמות). אין להשתמש בשירות למטרות הטרדה, שליחת הודעות ספאם או כל פעולה המנוגדת לחוקי מדינת ישראל.</p>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">4. שינויים בשירות ובעלויות</h2>
+            <p>החברה שומרת לעצמה את הזכות לעדכן את תכונות האפליקציה, להוסיף מסלולי תשלום או לשנות את תנאי השירות מעת לעת. הודעה על שינויים מהותיים תימסר למשתמשים דרך הממשק או במייל.</p>
+          </div>
+
+          <div className="pt-8 border-t border-slate-100">
+            <p className="font-bold mb-2">ליצירת קשר ותמיכה טכנית:</p>
+            <a href="mailto:hello@communicateclever.com" className="text-blue-600 font-bold underline">hello@communicateclever.com</a>
+          </div>
+        </section>
+
+        <footer className="mt-16">
+          <Link href="/checkin" className="inline-flex items-center gap-2 text-slate-400 hover:text-blue-600 font-bold transition-all">
+            חזרה לאפליקציה <ArrowRight size={16} />
+          </Link>
+        </footer>
+      </div>
     </div>
   );
 }

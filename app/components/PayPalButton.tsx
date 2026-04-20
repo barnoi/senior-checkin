@@ -36,14 +36,23 @@ export default function PayPalButton({ amount, onSuccess }: PayPalProps) {
               }]
             });
           },
-          onApprove: async (data: any, actions: any) => {
-            const details = await actions.order.capture();
-            onSuccess(details);
-          },
-          onError: (err: any) => {
-            console.error("PayPal Error:", err);
-            alert("הייתה שגיאה בתשלום, אנא נסו שנית.");
-          }
+         onApprove: async (data: any, actions: any) => {
+  const details = await actions.order.capture();
+  
+  // 1. שמירת המייל של המשלם בזיכרון של הדפדפן
+  const payerEmail = details.payer.email_address;
+  localStorage.setItem('senior_user_email', payerEmail);
+  
+  // 2. קריאה לפונקציית ההצלחה הקיימת שלך
+  onSuccess(details);
+
+  // 3. ניתוב המשתמש לדף האדמין (ניהול המלווים)
+  window.location.href = '/admin';
+},
+onError: (err: any) => {
+  console.error("PayPal Error:", err);
+  alert("הייתה שגיאה בתשלום, אנא נסו שנית.");
+}
         }).render(containerRef.current);
       }
     };
@@ -64,7 +73,7 @@ export default function PayPalButton({ amount, onSuccess }: PayPalProps) {
   return (
     <div className="w-full">
       {/* שימוש ב-ref במקום ב-ID גלובלי מבטיח שליטה טובה יותר */}
-      <div ref={containerRef} className="min-h-[150px]"></div>
+      <div ref={containerRef} className="min-h-37.5"></div>
     </div>
   );
 }
