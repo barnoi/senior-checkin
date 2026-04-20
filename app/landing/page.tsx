@@ -25,7 +25,7 @@ export default function LandingPage() {
     { name: "רחל אברהם", role: "סבתא ל-12", text: "הכפתור הירוק כל כך פשוט. אני לוחצת וכל הילדים שלי יודעים מיד שאני בסדר." },
     { name: "יוסי מזרחי", role: "מנהל הייטק", text: "השירות הזה נותן לי שקט נפשי באמצע יום עבודה עמוס. פשוט ויעיל." },
     { name: "אורית גל", role: "בת להורים בקיבוץ", text: "זה פשוט נותן לנו להתחיל את היום בידיעה שהכל בסדר, בלי להפריע לשגרה שלהם." },
-    { name: "שמואל כץ", role: "גמלאי", text: "אני מרגיש בטוח יותר בידיעה שהמשפחה שלי מחוברת אליי בלחיצת כפור." }
+    { name: "שמואל כץ", role: "גמלאי", text: "אני מרגיש בטוח יותר בידיעה שהמשפחה שלי מחוברת אליי בלחיצת כפתור." }
   ];
 
   const handleExistingUserLogin = async () => {
@@ -61,14 +61,14 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-right text-slate-900" dir="rtl" suppressHydrationWarning>
       
-      {/* Navbar משופר למובייל - לוגו בשתי שורות */}
+      {/* Navbar משופר - לוגו בשתי שורות */}
       <nav className="p-4 md:p-6 max-w-6xl mx-auto flex justify-between items-center border-b border-slate-50 sticky top-0 bg-white/80 backdrop-blur-md z-50">
         <div className="flex flex-col">
           <div className="text-xl md:text-2xl font-black text-blue-600 tracking-tighter leading-none">SeniorSafe</div>
-          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Family Circle</div>
+          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">עצמאות מחוברת</div>
         </div>
-        <div className="flex gap-2 md:gap-6 items-center">
-          <Link href="/about" className="text-slate-500 font-bold hover:text-blue-600 transition text-xs md:text-sm">הסיפור שלנו</Link>
+        <div className="flex gap-2 md:gap-4 items-center">
+          <Link href="/about" className="text-slate-500 font-bold hover:text-blue-600 transition text-xs md:text-sm whitespace-nowrap">הסיפור שלנו</Link>
           <button 
             onClick={handleExistingUserLogin}
             className="bg-slate-100 px-3 py-2 rounded-lg text-slate-700 font-bold hover:bg-blue-600 hover:text-white transition text-[11px] md:text-sm whitespace-nowrap"
@@ -78,17 +78,17 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section - תמונה מופיעה ראשונה במובייל */}
+      {/* Hero Section עם ה"הוק" של הסיפור האישי */}
       <header className="py-8 md:py-16 px-6 max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-12 items-center">
         
-        {/* Mockup - מופיע בראש הדף במובייל */}
+        {/* Mockup מופיע ראשון במובייל */}
         <div className="order-1 md:order-2 relative justify-self-center">
           <div className="relative mx-auto w-56 h-[450px] md:w-70 md:h-145 bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] border-[8px] md:border-12 border-slate-900 shadow-2xl overflow-hidden ring-8 ring-slate-100/50 transform rotate-1 md:rotate-2">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 md:w-24 h-5 md:h-6 bg-slate-900 rounded-b-2xl z-20 flex items-center justify-center">
               <div className="w-6 md:w-8 h-1 bg-slate-800 rounded-full"></div>
             </div>
             <div className="relative w-full h-full bg-white overflow-hidden">
-              <img src="/app-screenshot.png" alt="App Interface" className="w-full h-full object-cover" />
+              <img src="/app-screenshot.png" alt="SeniorSafe App" className="w-full h-full object-cover" />
             </div>
           </div>
           <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 md:w-72 md:h-72 bg-blue-100 rounded-full blur-3xl opacity-60"></div>
@@ -97,16 +97,21 @@ export default function LandingPage() {
         {/* טקסט וכותרות */}
         <div className="order-2 md:order-1 text-center md:text-right">
           <span className="bg-blue-50 text-blue-800 px-3 py-1 rounded-lg text-[10px] md:text-xs font-bold mb-4 inline-block italic">
-            SENIORSAFE • פותח על ידי מרפאה בעיסוק מומחית לגיל השלישי
+            פיתוח של מרפאה בעיסוק מומחית לגיל השלישי
           </span>
-          <h1 className="text-3xl md:text-5xl font-black mb-6 leading-tight text-slate-800 tracking-tight">
+          <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight text-slate-800 tracking-tight">
             הדרך המכבדת לשמור <br/>
-            על <span className={`text-blue-600 ${caveat.className} text-5xl md:text-7xl`} style={{ display: 'inline-block', transform: 'rotate(-2deg)' }}>Independence.</span>
+            על <span className={`text-blue-600 ${caveat.className} text-4xl md:text-6xl inline-block`} style={{ transform: 'rotate(-2deg)' }}>העצמאות של ההורים.</span>
           </h1>
-          <p className="text-base md:text-lg text-slate-500 mb-8 leading-relaxed max-w-lg font-medium mx-auto md:mr-0">
-            בלי שיחות תחקור מעיקות ובלי להפריע לסדר היום. 
-            מערכת עדכון בוקר שמאפשרת להורים לשלוח "הכל בסדר" בלחיצת כפתור אחת פשוטה.
-          </p>
+          
+          {/* הוק - הסיפור האישי */}
+          <div className="bg-slate-50 border-r-4 border-blue-500 p-4 mb-8 text-right italic shadow-sm rounded-l-xl">
+             <p className="text-slate-700 font-medium leading-relaxed">
+               "הלב שלי היה מחסיר פעימה בכל בוקר: האם להתקשר עכשיו? אולי הם עוד ישנים? רציתי שקט נפשי מבלי להפוך כל שיחה ל'בדיקת נוכחות' מעיקה."
+             </p>
+             <span className="text-blue-600 text-xs font-bold mt-2 block">— המניע מאחורי SeniorSafe</span>
+          </div>
+
           <button 
             onClick={() => document.getElementById('offer')?.scrollIntoView({ behavior: 'smooth' })}
             className="w-full md:w-auto bg-blue-600 text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-blue-700 transition shadow-xl hover:scale-105 active:scale-95"
@@ -143,7 +148,7 @@ export default function LandingPage() {
           <h2 className="text-2xl font-black text-center mb-12 text-slate-800">מה המשפחות שלנו אומרות</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
-              <div key={i} className="bg-slate-50 p-6 rounded-3xl border border-slate-100 shadow-sm italic">
+              <div key={i} className="bg-slate-50 p-6 rounded-3xl border border-slate-100 shadow-sm italic text-right">
                 <p className="text-slate-600 mb-4 text-xs md:text-sm font-medium leading-relaxed">"{t.text}"</p>
                 <div className="font-black text-slate-800 text-xs">{t.name}</div>
                 <div className="text-blue-600 text-[10px] font-bold">{t.role}</div>
@@ -181,14 +186,14 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ Section - מפורט כדי להפחית תמיכה */}
+      {/* FAQ Section */}
       <section className="py-20 px-6 bg-slate-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-black text-center mb-12 text-slate-800">שאלות ותשובות (FAQ)</h2>
           <div className="space-y-6 text-right">
             <div className="bg-blue-50 p-6 rounded-2xl shadow-sm border border-blue-100">
               <h3 className="font-black text-lg text-blue-700 mb-2">איך מוסיפים את SeniorSafe כ"אייקון" על מסך הבית?</h3>
-              <p className="text-slate-700 font-medium">
+              <p className="text-slate-700 font-medium leading-relaxed">
                 פתחו את האתר בטלפון. באייפון: לחצו על כפתור ה-<strong>"שתף"</strong> ובחרו <strong>"הוסף למסך הבית"</strong>. באנדרואיד: לחצו על שלוש הנקודות ובחרו <strong>"התקן אפליקציה"</strong>.
               </p>
             </div>
