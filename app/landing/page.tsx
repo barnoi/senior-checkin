@@ -65,7 +65,7 @@ export default function LandingPage() {
       <nav className="p-4 md:p-6 max-w-6xl mx-auto flex justify-between items-center border-b border-slate-50 sticky top-0 bg-white/80 backdrop-blur-md z-50">
         <div className="flex flex-col">
           <div className="text-xl md:text-2xl font-black text-blue-600 tracking-tighter leading-none">SeniorSafe</div>
-          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">עצמאות מחוברת</div>
+          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">גשר דיגיטלי</div>
         </div>
         <div className="flex gap-2 md:gap-4 items-center">
           <Link href="/about" className="text-slate-500 font-bold hover:text-blue-600 transition text-xs md:text-sm whitespace-nowrap">הסיפור שלנו</Link>
@@ -134,7 +134,7 @@ export default function LandingPage() {
             <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
               <div className="text-4xl mb-4 group-hover:scale-110 transition">📞</div>
               <h3 className="text-xl font-black mb-3 text-blue-600">שיחה בלחיצה אחת</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">היכולת להתקשר להורה (המכותב הראשי) ישירות מהמערכת ברגע של צורך, בלי לחפש אנשי קשר.</p>
+              <p className="text-slate-600 leading-relaxed font-medium">היכולת להתקשר (למכותב הראשי) ישירות מהמערכת ברגע של צורך, בלי לחפש אנשי קשר.</p>
             </div>
             <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
               <div className="text-4xl mb-4 group-hover:scale-110 transition">💬</div>
