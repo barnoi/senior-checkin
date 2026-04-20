@@ -2,68 +2,59 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
 export async function GET(request: Request) {
-  const authHeader = request.headers.get('authorization');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  // אבטחה מותאמת ל-Vercel Cron
+  const isCron = request.headers.get('x-vercel-cron') === '1';
+  const isDev = process.env.NODE_ENV === 'development';
+  
+  if (!isCron && !isDev) {
     return new Response('Unauthorized', { status: 401 });
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
   try {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayIso = today.toISOString();
+    const now = new Date();
+    const currentHour = now.getHours().toString().padStart(2, '0') + ":00";
+    const todayIso = new Date().toISOString().split('T')[0];
 
-    // 1. נביא את כל הלקוחות הפעילים (אלו ששילמו)
-    const { data: customers, error: custError } = await supabase
-      .from('customers')
-      .select('email, id')
-      .eq('payment_status', 'paid');
+    // שליפת אנשי הקשר עם השם מהעמודה הקיימת 'name'
+    const { data: contacts, error: contError } = await supabase
+      .from('contacts')
+      .select('*, customers(payment_status)')
+      .eq('alert_time', currentHour);
 
-    if (custError) throw custError;
+    if (contError) throw contError;
 
-    for (const customer of customers) {
-      // 2. לכל לקוח - נבדוק אם יש צ'ק-אין מהיום שמשויך למייל שלו
-      const { data: checkins, error: checkError } = await supabase
+    const instanceId = process.env.ULTRAMSG_INSTANCE_ID!;
+    const token = process.env.ULTRAMSG_TOKEN!;
+
+    for (const contact of contacts || []) {
+      if (contact.customers?.payment_status !== 'paid') continue;
+
+      const { data: checkins } = await supabase
         .from('checkins')
-        .select('*')
-        .eq('email', customer.email) // סינון לפי מייל הלקוח
+        .select('id')
+        .eq('email', contact.customer_email)
         .gte('created_at', todayIso);
 
-      if (checkError) continue;
-
-      // 3. אם לא נמצא צ'ק-אין להורה של הלקוח הזה
       if (!checkins || checkins.length === 0) {
-        // נביא את אנשי הקשר שמשויכים ללקוח הזה בלבד
-        const { data: contacts, error: contError } = await supabase
-          .from('contacts')
-          .select('phone')
-          .eq('customer_email', customer.email); // ודאי שיש לך עמודה כזו בטבלה
-
-        if (contError || !contacts) continue;
-
-        // 4. שליחת התראה לכל איש קשר של הלקוח הספציפי
-        const instanceId = process.env.NEXT_PUBLIC_ULTRAMSG_INSTANCE_ID;
-        const token = process.env.NEXT_PUBLIC_ULTRAMSG_TOKEN;
-
-        for (const contact of contacts) {
-          await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({
-              token: token!,
-              to: contact.phone,
-              body: `⚠️ התראת SeniorSafe: לא התקבל עדכון בוקר מההורה. מומלץ לבדוק מה שלומו. ❤️`
-            })
-          });
-        }
+        await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            token: token,
+            to: contact.phone,
+            // שימוש בעמודה name שקיימת אצלך בטבלה
+            body: `⚠️ התראת SeniorSafe: לא התקבל עדכון בוקר מ${contact.name || 'ההורה'}. מומלץ לבדוק מה שלומו. ❤️`
+          })
+        });
       }
     }
 
-    return NextResponse.json({ message: 'Cron job completed successfully' });
+    return NextResponse.json({ success: true, processed: contacts?.length });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

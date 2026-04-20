@@ -177,7 +177,7 @@ export default function Page() {
       </div>
 
       {selectedMember && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-6" onClick={() => setSelectedMember(null)}>
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-6" onClick={() => setSelectedMember(null)}>
           <div className="bg-white rounded-[2.5rem] p-8 w-full max-w-xs shadow-2xl text-center flex flex-col items-center relative" onClick={(e) => e.stopPropagation()}>
             <button onClick={() => setSelectedMember(null)} className="absolute top-4 right-4 text-slate-400 p-2 font-bold text-xl">✕</button>
             <div className="w-24 h-24 rounded-full border-4 border-slate-50 overflow-hidden mb-4 shadow-md bg-slate-100">

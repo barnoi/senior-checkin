@@ -126,29 +126,43 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* פירוט השירותים - Highlighting המידע שחסר */}
-      <section className="py-16 bg-white px-6 border-y border-slate-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-black mb-12 text-center text-slate-800 tracking-tight">שירות מעטפת להורים ולילדים</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
-              <div className="text-4xl mb-4 group-hover:scale-110 transition">📞</div>
-              <h3 className="text-xl font-black mb-3 text-blue-600">שיחה בלחיצה אחת</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">היכולת להתקשר (למכותב הראשי) ישירות מהמערכת ברגע של צורך, בלי לחפש אנשי קשר.</p>
-            </div>
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
-              <div className="text-4xl mb-4 group-hover:scale-110 transition">💬</div>
-              <h3 className="text-xl font-black mb-3 text-blue-600">עדכון לכל הילדים</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">לחיצת הכפתור של ההורה שולחת הודעת וואטסאפ אוטומטית לכל רשימת המלווים - כולם מעודכנים בבת אחת.</p>
-            </div>
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
-              <div className="text-4xl mb-4 group-hover:scale-110 transition">🛡️</div>
-              <h3 className="text-xl font-black mb-3 text-blue-600">שקט נפשי מלא</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">ניהול חכם של רשימת המלווים, תמונות והגדרות זמן אישיות שמתאימות בדיוק לסדר היום של המשפחה שלכם.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* פירוט השירותים - Highlighting המנגנון האקטיבי */}
+<section className="py-16 bg-white px-6 border-y border-slate-50">
+  <div className="max-w-6xl mx-auto">
+    <h2 className="text-3xl font-black mb-12 text-center text-slate-800 tracking-tight">הרבה יותר מסתם כפתור</h2>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      {/* רובריקה 1 */}
+      <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
+        <div className="text-4xl mb-4 group-hover:scale-110 transition">📞</div>
+        <h3 className="text-xl font-black mb-3 text-blue-600">קשר ישיר ומיידי</h3>
+        <p className="text-slate-600 leading-relaxed font-medium">
+          הילדים יכולים להתקשר להורה (המכותב הראשי) בלחיצה אחת מהירה מתוך המערכת, בלי לחפש אנשי קשר ברגע של דאגה.
+        </p>
+      </div>
+
+      {/* רובריקה 2 */}
+      <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
+        <div className="text-4xl mb-4 group-hover:scale-110 transition">💬</div>
+        <h3 className="text-xl font-black mb-3 text-blue-600">עדכון אוטומטי למשפחה</h3>
+        <p className="text-slate-600 leading-relaxed font-medium">
+          ברגע שההורה לוחץ על הכפתור, נשלחת הודעת וואטסאפ מרגיעה לכל רשימת המלווים שהגדרתם מראש. כולם מעודכנים בבת אחת.
+        </p>
+      </div>
+
+      {/* רובריקה 3 - כאן השינוי המהותי! */}
+      <div className="p-8 rounded-3xl bg-blue-600 text-white shadow-xl hover:shadow-2xl transition group transform md:-translate-y-2">
+        <div className="text-4xl mb-4 group-hover:rotate-12 transition">🔔</div>
+        <h3 className="text-xl font-black mb-3">מנגנון התראה אקטיבי</h3>
+        <p className="text-blue-50 leading-relaxed font-medium">
+          <span className="font-black underline">זה הפלא האמיתי:</span> אם ההורה לא לחץ על הפעמון שעתיים אחרי המועד שקבעתם – המערכת שולחת לכם התראה אוטומטית: 
+          <span className="block mt-2 font-black italic">"כדאי שתבדקו, אמא לא עדכנה היום."</span>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* 4 שלבים */}
       <section id="steps" className="py-16 bg-slate-100 px-6">
