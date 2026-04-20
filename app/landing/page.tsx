@@ -25,7 +25,7 @@ export default function LandingPage() {
     { name: "רחל אברהם", role: "סבתא ל-12", text: "הכפתור הירוק כל כך פשוט. אני לוחצת וכל הילדים שלי יודעים מיד שאני בסדר." },
     { name: "יוסי מזרחי", role: "מנהל הייטק", text: "השירות הזה נותן לי שקט נפשי באמצע יום עבודה עמוס. פשוט ויעיל." },
     { name: "אורית גל", role: "בת להורים בקיבוץ", text: "זה פשוט נותן לנו להתחיל את היום בידיעה שהכל בסדר, בלי להפריע לשגרה שלהם." },
-    { name: "שמואל כץ", role: "גמלאי", text: "אני מרגיש בטוח יותר בידיעה שהמשפחה שלי מחוברת אליי בלחיצת כפתור." }
+    { name: "שמואל כץ", role: "גמלאי", text: "אני מרגיש בטוח יותר בידיעה שהמשפחה שלי מחוברת אליי בלחיצת כפור." }
   ];
 
   const handleExistingUserLogin = async () => {
@@ -61,7 +61,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-right text-slate-900" dir="rtl" suppressHydrationWarning>
       
-      {/* Navbar */}
+      {/* Navbar - לוגו בשתי שורות למניעת צפיפות במובייל */}
       <nav className="p-4 md:p-6 max-w-6xl mx-auto flex justify-between items-center border-b border-slate-50 sticky top-0 bg-white/80 backdrop-blur-md z-50">
         <div className="flex flex-col">
           <div className="text-xl md:text-2xl font-black text-blue-600 tracking-tighter leading-none">SeniorSafe</div>
@@ -81,9 +81,9 @@ export default function LandingPage() {
       {/* Hero Section */}
       <header className="py-8 md:py-16 px-6 max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-12 items-center">
         
-        {/* Mockup - First in mobile */}
+        {/* Mockup - מופיע ראשון במובייל */}
         <div className="order-1 md:order-2 relative justify-self-center">
-          <div className="relative mx-auto w-56 h-112.5 md:w-70 md:h-145 bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] border-8 md:border-12 border-slate-900 shadow-2xl overflow-hidden ring-8 ring-slate-100/50 transform rotate-1 md:rotate-2">
+          <div className="relative mx-auto w-56 h-[450px] md:w-70 md:h-145 bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] border-[8px] md:border-12 border-slate-900 shadow-2xl overflow-hidden ring-8 ring-slate-100/50 transform rotate-1 md:rotate-2">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 md:w-24 h-5 md:h-6 bg-slate-900 rounded-b-2xl z-20 flex items-center justify-center">
               <div className="w-6 md:w-8 h-1 bg-slate-800 rounded-full"></div>
             </div>
@@ -104,10 +104,10 @@ export default function LandingPage() {
             על <span className={`text-blue-600 ${caveat.className} text-4xl md:text-6xl inline-block`} style={{ transform: 'rotate(-2deg)' }}>העצמאות של ההורים המתבגרים.</span>
           </h1>
           
-          {/* Personal Story Hook - Full version */}
+          {/* הסיפור האישי המלא - הגשר הדיגיטלי */}
           <div className="bg-blue-50/50 border-r-4 border-blue-600 p-6 mb-8 text-right shadow-sm rounded-l-2xl">
              <p className="text-slate-800 font-bold mb-3 text-sm md:text-base leading-relaxed">
-               נעים מאוד, אני מרפאה בעיסוק, עובדת עם הדור השלישי ובת להורים מתבגרים.
+               נעים מאוד, אני מרפאה בעיסוק, עובדת עם הדור השלישי ובת להורים מתבגרים. במשך שנים ראיתי את המורכבות הזו מהצד המקצועי...
              </p>
              <p className="text-slate-700 text-sm md:text-base leading-relaxed mb-3 italic">
                "הסיפור האישי שלי התחיל בכל בוקר מחדש, כשהלב שלי היה מחסיר פעימה: האם להתקשר עכשיו? אולי הם עוד ישנים? אולי קרה משהו והם לא יכולים לענות?"
@@ -126,7 +126,7 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Rest of the page (Steps, Testimonials, Pricing, FAQ)... */}
+      {/* 4 שלבים */}
       <section id="steps" className="py-16 bg-slate-100 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-black text-center mb-12 italic">איך זה עובד ב-4 שלבים?</h2>
@@ -147,6 +147,7 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* טסטמוניאלס */}
       <section className="py-16 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-black text-center mb-12 text-slate-800">מה המשפחות שלנו אומרות</h2>
@@ -162,6 +163,7 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* תשלום */}
       <section id="offer" className="py-16 px-6 text-center">
         <div className="max-w-3xl mx-auto bg-slate-900 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl border-b-12 border-blue-600">
           <div className="bg-blue-600 text-white px-4 py-1 rounded-full font-black absolute top-2 left-1/2 transform -translate-x-1/2 text-[10px] uppercase tracking-widest italic">נשארו 50 מקומות למייסדים</div>
@@ -177,7 +179,7 @@ export default function LandingPage() {
                 !showPayment ? (
                   <button onClick={() => setShowPayment(true)} className="w-full bg-blue-600 text-white py-4 rounded-xl font-black text-xl hover:bg-blue-700 transition shadow-xl animate-bounce">אני רוצה להצטרף</button>
                 ) : (
-                  <div className="bg-white p-4 rounded-xl shadow-inner min-h-37.5 flex flex-col items-center justify-center">
+                  <div className="bg-white p-4 rounded-xl shadow-inner min-h-[150px] flex flex-col items-center justify-center">
                     <PayPalButton amount="1.00" onSuccess={() => { setPaid(true); setTimeout(() => { window.location.href = "/admin"; }, 2000); }} />
                   </div>
                 )
@@ -189,6 +191,7 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* שאלות ותשובות מפורטות */}
       <section className="py-20 px-6 bg-slate-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-black text-center mb-12 text-slate-800">שאלות ותשובות (FAQ)</h2>
