@@ -61,7 +61,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-right text-slate-900" dir="rtl" suppressHydrationWarning>
       
-      {/* Navbar משופר - לוגו בשתי שורות */}
+      {/* Navbar */}
       <nav className="p-4 md:p-6 max-w-6xl mx-auto flex justify-between items-center border-b border-slate-50 sticky top-0 bg-white/80 backdrop-blur-md z-50">
         <div className="flex flex-col">
           <div className="text-xl md:text-2xl font-black text-blue-600 tracking-tighter leading-none">SeniorSafe</div>
@@ -78,12 +78,12 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section עם ה"הוק" של הסיפור האישי */}
+      {/* Hero Section */}
       <header className="py-8 md:py-16 px-6 max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-12 items-center">
         
-        {/* Mockup מופיע ראשון במובייל */}
+        {/* Mockup - First in mobile */}
         <div className="order-1 md:order-2 relative justify-self-center">
-          <div className="relative mx-auto w-56 h-[450px] md:w-70 md:h-145 bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] border-[8px] md:border-12 border-slate-900 shadow-2xl overflow-hidden ring-8 ring-slate-100/50 transform rotate-1 md:rotate-2">
+          <div className="relative mx-auto w-56 h-112.5 md:w-70 md:h-145 bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] border-8 md:border-12 border-slate-900 shadow-2xl overflow-hidden ring-8 ring-slate-100/50 transform rotate-1 md:rotate-2">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 md:w-24 h-5 md:h-6 bg-slate-900 rounded-b-2xl z-20 flex items-center justify-center">
               <div className="w-6 md:w-8 h-1 bg-slate-800 rounded-full"></div>
             </div>
@@ -94,22 +94,27 @@ export default function LandingPage() {
           <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 md:w-72 md:h-72 bg-blue-100 rounded-full blur-3xl opacity-60"></div>
         </div>
 
-        {/* טקסט וכותרות */}
+        {/* Text Section */}
         <div className="order-2 md:order-1 text-center md:text-right">
           <span className="bg-blue-50 text-blue-800 px-3 py-1 rounded-lg text-[10px] md:text-xs font-bold mb-4 inline-block italic">
             פיתוח של מרפאה בעיסוק מומחית לגיל השלישי
           </span>
-          <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight text-slate-800 tracking-tight">
+          <h1 className="text-3xl md:text-5xl font-black mb-6 leading-tight text-slate-800 tracking-tight">
             הדרך המכבדת לשמור <br/>
-            על <span className={`text-blue-600 ${caveat.className} text-4xl md:text-6xl inline-block`} style={{ transform: 'rotate(-2deg)' }}>העצמאות של ההורים.</span>
+            על <span className={`text-blue-600 ${caveat.className} text-4xl md:text-6xl inline-block`} style={{ transform: 'rotate(-2deg)' }}>העצמאות של ההורים המתבגרים.</span>
           </h1>
           
-          {/* הוק - הסיפור האישי */}
-          <div className="bg-slate-50 border-r-4 border-blue-500 p-4 mb-8 text-right italic shadow-sm rounded-l-xl">
-             <p className="text-slate-700 font-medium leading-relaxed">
-               "הלב שלי היה מחסיר פעימה בכל בוקר: האם להתקשר עכשיו? אולי הם עוד ישנים? רציתי שקט נפשי מבלי להפוך כל שיחה ל'בדיקת נוכחות' מעיקה."
+          {/* Personal Story Hook - Full version */}
+          <div className="bg-blue-50/50 border-r-4 border-blue-600 p-6 mb-8 text-right shadow-sm rounded-l-2xl">
+             <p className="text-slate-800 font-bold mb-3 text-sm md:text-base leading-relaxed">
+               נעים מאוד, אני מרפאה בעיסוק, עובדת עם הדור השלישי ובת להורים מתבגרים.
              </p>
-             <span className="text-blue-600 text-xs font-bold mt-2 block">— המניע מאחורי SeniorSafe</span>
+             <p className="text-slate-700 text-sm md:text-base leading-relaxed mb-3 italic">
+               "הסיפור האישי שלי התחיל בכל בוקר מחדש, כשהלב שלי היה מחסיר פעימה: האם להתקשר עכשיו? אולי הם עוד ישנים? אולי קרה משהו והם לא יכולים לענות?"
+             </p>
+             <p className="text-slate-800 font-medium text-sm md:text-base leading-relaxed">
+               מצאתי את עצמי במלכודת – מצד אחד דאגה עמוקה, ומצד שני חוסר נעימות להפוך כל שיחה ל"בדיקת נוכחות" מעיקה. הבנתי שחסר לנו <span className="text-blue-700 font-black">גשר דיגיטלי חם ומכבד.</span>
+             </p>
           </div>
 
           <button 
@@ -121,7 +126,7 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Steps Section */}
+      {/* Rest of the page (Steps, Testimonials, Pricing, FAQ)... */}
       <section id="steps" className="py-16 bg-slate-100 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-black text-center mb-12 italic">איך זה עובד ב-4 שלבים?</h2>
@@ -142,7 +147,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
       <section className="py-16 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-black text-center mb-12 text-slate-800">מה המשפחות שלנו אומרות</h2>
@@ -158,7 +162,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
       <section id="offer" className="py-16 px-6 text-center">
         <div className="max-w-3xl mx-auto bg-slate-900 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl border-b-12 border-blue-600">
           <div className="bg-blue-600 text-white px-4 py-1 rounded-full font-black absolute top-2 left-1/2 transform -translate-x-1/2 text-[10px] uppercase tracking-widest italic">נשארו 50 מקומות למייסדים</div>
@@ -174,7 +177,7 @@ export default function LandingPage() {
                 !showPayment ? (
                   <button onClick={() => setShowPayment(true)} className="w-full bg-blue-600 text-white py-4 rounded-xl font-black text-xl hover:bg-blue-700 transition shadow-xl animate-bounce">אני רוצה להצטרף</button>
                 ) : (
-                  <div className="bg-white p-4 rounded-xl shadow-inner min-h-[150px] flex flex-col items-center justify-center">
+                  <div className="bg-white p-4 rounded-xl shadow-inner min-h-37.5 flex flex-col items-center justify-center">
                     <PayPalButton amount="1.00" onSuccess={() => { setPaid(true); setTimeout(() => { window.location.href = "/admin"; }, 2000); }} />
                   </div>
                 )
@@ -186,7 +189,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
       <section className="py-20 px-6 bg-slate-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-black text-center mb-12 text-slate-800">שאלות ותשובות (FAQ)</h2>
@@ -199,21 +201,20 @@ export default function LandingPage() {
             </div>
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
               <h3 className="font-black text-lg text-blue-600 mb-2">איך אני מוצא/ת קישור (URL) לתמונה?</h3>
-              <p className="text-slate-600 font-medium">העלו את התמונה הרצויה לוואטסאפ במחשב, קליק ימני עליה ובחרו "העתק כתובת תמונה". הדביקו את הקישור בהגדרות המלווה.</p>
+              <p className="text-slate-600 font-medium leading-relaxed">העלו את התמונה הרצויה לוואטסאפ במחשב, קליק ימני עליה ובחרו "העתק כתובת תמונה". הדביקו את הקישור בהגדרות המלווה.</p>
             </div>
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
               <h3 className="font-black text-lg text-blue-600 mb-2">מהו פורמט מספר הטלפון המדויק?</h3>
-              <p className="text-slate-600 font-medium">יש להזין פורמט בינלאומי ללא סימנים: לדוגמה <strong>972541234567</strong> (ללא ה-0 בהתחלה וללא +).</p>
+              <p className="text-slate-600 font-medium leading-relaxed">יש להזין פורמט בינלאומי ללא סימנים: לדוגמה <strong>972541234567</strong> (ללא ה-0 בהתחלה וללא +).</p>
             </div>
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
               <h3 className="font-black text-lg text-blue-600 mb-2">מה קורה אם ההורה שוכח ללחוץ?</h3>
-              <p className="text-slate-600 font-medium">המערכת תמתין עד לשעה שהגדרתם, ואם לא התקבל עדכון - תשלח הודעת וואטסאפ אוטומטית לכל המלווים שרשמתם.</p>
+              <p className="text-slate-600 font-medium leading-relaxed">המערכת תמתין עד לשעה שהגדרתם, ואם לא התקבל עדכון - תשלח הודעת וואטסאפ אוטומטית לכל המלווים שרשמתם.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="py-12 border-t border-slate-100 text-center text-slate-400 text-[10px] font-bold italic">
         <div className="flex justify-center gap-6 mb-4 text-slate-600 underline">
           <Link href="/terms">תנאי שימוש</Link>
