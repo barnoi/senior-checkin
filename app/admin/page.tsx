@@ -242,54 +242,85 @@ export default function AdminPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">
-                      <User size={16} className="text-blue-500" /> שם המלווה
-                    </label>
-                    <input 
-                      placeholder="למשל: עמית"
-                      className="w-full p-4 bg-white border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none font-medium transition-all"
-                      value={member.name || ''}
-                      onChange={(e) => handleLocalChange(index, 'name', e.target.value)}
-                    />
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {/* שם המלווה */}
+  <div className="space-y-2">
+    <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">
+      <User size={16} className="text-blue-500" /> שם המלווה
+    </label>
+    <input 
+      placeholder="למשל: עמית"
+      className="w-full p-4 bg-white border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none font-medium transition-all"
+      value={member.name || ''}
+      onChange={(e) => handleLocalChange(index, 'name', e.target.value)}
+    />
+  </div>
 
-                  <div className="space-y-2">
-                    <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">
-                      <Phone size={16} className="text-green-500" /> מספר טלפון
-                    </label>
-                    <input 
-                      placeholder="050-0000000"
-                      className="w-full p-4 bg-white border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-left transition-all"
-                      value={member.phone || ''}
-                      onChange={(e) => handleLocalChange(index, 'phone', e.target.value)}
-                    />
-                  </div>
+  {/* מספר טלפון */}
+  <div className="space-y-2">
+    <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">
+      <Phone size={16} className="text-green-500" /> מספר טלפון
+    </label>
+    <input 
+      placeholder="050-0000000"
+      className="w-full p-4 bg-white border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-left transition-all"
+      value={member.phone || ''}
+      onChange={(e) => handleLocalChange(index, 'phone', e.target.value)}
+    />
+  </div>
 
-                  <div className="md:col-span-2 space-y-2">
-                    <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">
-                      <ImageIcon size={16} className="text-purple-500" /> קישור לתמונה {isVisible ? '' : '(לא חובה למלווה שקט)'}
-                    </label>
-                    <div className="flex gap-4 items-center">
-                      <div className={`relative w-16 h-16 rounded-2xl border overflow-hidden shrink-0 shadow-inner ${isVisible ? 'bg-slate-100 border-slate-200' : 'bg-slate-200 border-slate-300 opacity-50'}`}>
-                        {member.image_url ? (
-                          <img src={member.image_url} alt="Preview" className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-slate-300">
-                            <ImageIcon size={24} />
-                          </div>
-                        )}
-                      </div>
-                      <input 
-                        placeholder="הדביקי כאן קישור לתמונה"
-                        className="flex-1 p-4 bg-white border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-xs text-slate-500 transition-all"
-                        value={member.image_url || ''}
-                        onChange={(e) => handleLocalChange(index, 'image_url', e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
+  {/* בחירת שעת יעד לעדכון - כאן ה"פלא" */}
+  <div className="space-y-2">
+    <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">
+      <span className="text-blue-500">⏰</span> מתי ההורה נוהג לעדכן?
+    </label>
+    <select 
+      className="w-full p-4 bg-white border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-slate-700 shadow-sm"
+      // הערה: ניתן להוסיף שדה target_hour ל-State כדי לשמור את הבחירה ויזואלית
+      onChange={(e) => {
+        const targetHour = parseInt(e.target.value);
+        const alertHour = (targetHour + 2).toString().padStart(2, '0') + ":00";
+        handleLocalChange(index, 'alert_time', alertHour);
+      }}
+    >
+      <option value="06">06:00 בבוקר</option>
+      <option value="07">07:00 בבוקר</option>
+      <option value="08">08:00 בבוקר</option>
+      <option value="09" selected>09:00 בבוקר</option>
+      <option value="10">10:00 בבוקר</option>
+      <option value="11">11:00 בבוקר</option>
+      <option value="12">12:00 בצהריים</option>
+      <option value="13">13:00 בצהריים</option>
+    </select>
+    <p className="text-[10px] text-blue-600 font-bold mr-1 italic">
+      * המערכת תשלח התראה שעתיים אחרי השעה שתבחרו.
+    </p>
+  </div>
+
+  {/* קישור לתמונה */}
+  <div className="space-y-2">
+    <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">
+      <ImageIcon size={16} className="text-purple-500" /> קישור לתמונה {isVisible ? '' : '(לא חובה)'}
+    </label>
+    <div className="flex gap-4 items-center">
+      <div className={`relative w-16 h-16 rounded-2xl border overflow-hidden shrink-0 shadow-inner ${isVisible ? 'bg-slate-100 border-slate-200' : 'bg-slate-200 border-slate-300 opacity-50'}`}>
+        {member.image_url ? (
+          <img src={member.image_url} alt="Preview" className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-slate-300">
+            <ImageIcon size={24} />
+          </div>
+        )}
+      </div>
+      <input 
+        placeholder="הדביקי כאן קישור לתמונה"
+        className="flex-1 p-4 bg-white border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-xs text-slate-500 transition-all"
+        value={member.image_url || ''}
+        onChange={(e) => handleLocalChange(index, 'image_url', e.target.value)}
+      />
+    </div>
+  </div>
+</div>
               </div>
             );
           })}
