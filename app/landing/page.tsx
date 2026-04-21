@@ -272,6 +272,24 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+<div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+    <h3 className="font-black text-lg text-blue-600 mb-2">מה קורה בתום השנה? האם תהיה לי גישה לנתונים?</h3>
+    <p className="text-slate-600 font-medium leading-relaxed">
+      אנחנו נשלח לכם תזכורת ידידותית חודש לפני תום המנוי כדי שתוכלו לחדש אותו בקלות. לא ביצענו חיוב אוטומטי, כך שאתם תמיד בשליטה מלאה. במידה ותבחרו לא לחדש, המערכת פשוט תפסיק לשלוח התראות.
+    </p>
+  </div>
+  <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+    <h3 className="font-black text-lg text-blue-600 mb-2">האם המחיר של 199 ₪ יישאר לי גם בשנה הבאה?</h3>
+    <p className="text-slate-600 font-medium leading-relaxed">
+      כן! כחלק מנבחרת המייסדים (Founders), אנחנו מתחייבים שהמחיר המיוחד שלכם יישמר גם בחידושים הבאים, גם אם המחיר ללקוחות חדשים יעלה.
+    </p>
+  </div>
+  <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+    <h3 className="font-black text-lg text-blue-600 mb-2">199 ₪ לשנה? זה הכל?</h3>
+    <p className="text-slate-600 font-medium leading-relaxed">
+      בדיוק. פחות מ-17 ₪ לחודש – שזה פחות ממחיר של כוס קפה אחת. אנחנו מאמינים שביטחון ושקט נפשי למשפחה צריכים להיות נגישים לכל אחד.
+    </p>
+  </div>
 
       <footer className="py-12 border-t border-slate-100 text-center text-slate-400 text-[10px] font-bold italic">
         <div className="flex justify-center gap-6 mb-4 text-slate-600 underline text-xs">
