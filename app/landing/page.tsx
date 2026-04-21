@@ -63,10 +63,12 @@ export default function LandingPage() {
       
       {/* Navbar */}
       <nav className="p-4 md:p-6 max-w-6xl mx-auto flex justify-between items-center border-b border-slate-50 sticky top-0 bg-white/80 backdrop-blur-md z-50">
-        <div className="flex flex-col">
-          <div className="text-xl md:text-2xl font-black text-blue-600 tracking-tighter leading-none">SeniorSafe</div>
-          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">גשר דיגיטלי</div>
-        </div>
+       <div className="flex flex-col items-center mb-8">
+  <h1 className="text-6xl font-black tracking-tighter text-slate-900">SeniorSafe</h1>
+  <p className="text-[11px] font-bold text-blue-600 uppercase tracking-[0.65em] mr-[-0.65em]">
+    גשר דיגיטלי למשפחה
+  </p>
+</div>
         <div className="flex gap-2 md:gap-4 items-center">
           <Link href="/about" className="text-slate-500 font-bold hover:text-blue-600 transition text-xs md:text-sm whitespace-nowrap">הסיפור שלנו</Link>
           <button 
@@ -207,14 +209,22 @@ export default function LandingPage() {
           <div className="bg-blue-600 text-white px-4 py-1 rounded-full font-black absolute top-2 left-1/2 transform -translate-x-1/2 text-[10px] uppercase tracking-widest italic">נשארו 50 מקומות למייסדים</div>
           
           <div className="mt-6">
-            <h3 className="text-3xl md:text-4xl font-black mb-4 tracking-tighter">חבילת Founders</h3>
+            <h3 className="text-3xl md:text-4xl font-black mb-4 tracking-tighter">חבילת SeniorSafe Family</h3>
             
+            {/* פירוט היתרונות שביקשת להוסיף */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-right max-w-xl mx-auto mb-8 bg-white/5 p-6 rounded-2xl border border-white/10">
+              <div className="flex items-center gap-2 text-slate-200 text-sm">✅ הודעות וואטסאפ לכל המלווים</div>
+              <div className="flex items-center gap-2 text-slate-200 text-sm">✅ בחירת שעה מותאמת אישית</div>
+              <div className="flex items-center gap-2 text-slate-200 text-sm">✅ לחצן חיוג מהיר להורה</div>
+              <div className="flex items-center gap-2 text-slate-200 text-sm">✅ ניהול מלווים ללא הגבלה</div>
+            </div>
+
             <div className="flex justify-center items-center gap-4 mb-4">
                <span className="text-slate-500 line-through text-xl font-bold">₪49 לחודש</span>
                <span className="text-5xl md:text-7xl font-black text-white tracking-tighter">₪199</span>
             </div>
 
-            {/* הקטע החדש והמשכנע */}
+            {/* הקטע השיווקי המשכנע */}
             <div className="space-y-4 mb-8">
               <p className="text-2xl font-black text-blue-400 italic underline decoration-2 underline-offset-8">
                 שנת שקט נפשי מלא ב-199 ₪ בלבד
@@ -245,52 +255,54 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
       {/* שאלות ותשובות */}
-      <section className="py-20 px-6 bg-slate-50">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-black text-center mb-12 text-slate-800">שאלות ותשובות (FAQ)</h2>
-          <div className="space-y-6 text-right">
-            <div className="bg-blue-50 p-6 rounded-2xl shadow-sm border border-blue-100">
-              <h3 className="font-black text-lg text-blue-700 mb-2">איך מוסיפים את SeniorSafe כ"אייקון" על מסך הבית?</h3>
-              <p className="text-slate-700 font-medium leading-relaxed">
-                פתחו את האתר בטלפון. באייפון: לחצו על כפתור ה-<strong>"שתף"</strong> ובחרו <strong>"הוסף למסך הבית"</strong>. באנדרואיד: לחצו על שלוש הנקודות ובחרו <strong>"התקן אפליקציה"</strong>.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-              <h3 className="font-black text-lg text-blue-600 mb-2">איך אני מוצא/ת קישור (URL) לתמונה?</h3>
-              <p className="text-slate-600 font-medium leading-relaxed">העלו את התמונה הרצויה לוואטסאפ במחשב, קליק ימני עליה ובחרו "העתק כתובת תמונה". הדביקו את הקישור בהגדרות המלווה.</p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-              <h3 className="font-black text-lg text-blue-600 mb-2">מהו פורמט מספר הטלפון המדויק?</h3>
-              <p className="text-slate-600 font-medium leading-relaxed">יש להזין פורמט בינלאומי ללא סימנים: לדוגמה <strong>972541234567</strong> (ללא ה-0 בהתחלה וללא +).</p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-              <h3 className="font-black text-lg text-blue-600 mb-2">מה קורה אם ההורה שוכח ללחוץ?</h3>
-              <p className="text-slate-600 font-medium leading-relaxed">המערכת תמתין עד לשעה שהגדרתם, ואם לא התקבל עדכון - תשלח הודעת וואטסאפ אוטומטית לכל המלווים שרשמתם.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-<div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-    <h3 className="font-black text-lg text-blue-600 mb-2">מה קורה בתום השנה? האם תהיה לי גישה לנתונים?</h3>
-    <p className="text-slate-600 font-medium leading-relaxed">
-      אנחנו נשלח לכם תזכורת ידידותית חודש לפני תום המנוי כדי שתוכלו לחדש אותו בקלות. לא ביצענו חיוב אוטומטי, כך שאתם תמיד בשליטה מלאה. במידה ותבחרו לא לחדש, המערכת פשוט תפסיק לשלוח התראות.
-    </p>
+      <section className="py-16 px-6 bg-white">
+  <h2 className="text-3xl font-black text-center mb-12 text-slate-900">שאלות נפוצות</h2>
+  <div className="max-w-2xl mx-auto space-y-4 text-right" dir="rtl">
+    
+    {[
+      { 
+        q: "איך מוסיפים את SeniorSafe כ\"אייקון\" על מסך הבית?", 
+        a: "פתחו את האתר בטלפון. באייפון: לחצו על כפתור ה-\"שתף\" (מרובע עם חץ למעלה) ובחרו \"הוסף למסך הבית\". באנדרואיד: לחצו על שלוש הנקודות בדפדפן ובחרו \"התקן אפליקציה\" או \"הוסף למסך הבית\"." 
+      },
+      { 
+        q: "איך אני מוצא/ת קישור (URL) לתמונה?", 
+        a: "העלו את התמונה הרצויה לוואטסאפ במחשב (WhatsApp Web), קליק ימני על התמונה ובחרו \"העתק כתובת תמונה\". הדביקו את הקישור שקיבלתם בהגדרות המלווה במערכת." 
+      },
+      { 
+        q: "מהו פורמט מספר הטלפון המדויק?", 
+        a: "יש להזין פורמט בינלאומי ללא סימנים כלל. לדוגמה: 972541234567 (שימו לב: ללא ה-0 בהתחלה וללא סימן ה-+)." 
+      },
+      { 
+        q: "מה קורה אם ההורה שוכח ללחוץ?", 
+        a: "המערכת תמתין עד לשעה המדויקת שהגדרתם. במידה ולא התקבל עדכון מההורה עד לאותה שעה, תשלח הודעת וואטסאפ אוטומטית לכל המלווים שרשמתם במערכת." 
+      },
+      { 
+        q: "מה קורה בתום השנה? האם תהיה לי גישה לנתונים?", 
+        a: "נשלח לכם תזכורת ידידותית חודש לפני תום המנוי כדי שתוכלו לחדש אותו בקלות. לא ביצענו חיוב אוטומטי, כך שאתם תמיד בשליטה מלאה. במידה ותבחרו לא לחדש, המערכת תפסיק לשלוח התראות." 
+      },
+      { 
+        q: "האם המחיר של 199 ₪ יישאר לי גם בשנה הבאה?", 
+        a: "כן! כחלק מנבחרת המייסדים (Founders), אנחנו מתחייבים שהמחיר המיוחד שלכם יישמר גם בחידושים הבאים, גם אם המחיר ללקוחות חדשים יעלה בעתיד." 
+      },
+      { 
+        q: "199 ₪ לשנה? זה הכל?", 
+        a: "בדיוק. פחות מ-17 ₪ לחודש – שזה פחות ממחיר של כוס קפה אחת. אנחנו מאמינים שביטחון ושקט נפשי למשפחה צריכים להיות נגישים לכל אחד." 
+      }
+    ].map((faq, index) => (
+      <details key={index} className="group border border-slate-200 rounded-2xl p-4 bg-slate-50 [&_summary::-webkit-details-marker]:hidden cursor-pointer transition-all hover:bg-white hover:shadow-md">
+        <summary className="flex justify-between items-center font-black text-lg text-slate-900">
+          <span className="ml-4">{faq.q}</span>
+          <span className="text-blue-600 transition-transform duration-300 group-open:rotate-180">▼</span>
+        </summary>
+        <p className="mt-4 text-slate-900 font-medium leading-relaxed border-t border-slate-200 pt-4">
+          {faq.a}
+        </p>
+      </details>
+    ))}
+    
   </div>
-  <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-    <h3 className="font-black text-lg text-blue-600 mb-2">האם המחיר של 199 ₪ יישאר לי גם בשנה הבאה?</h3>
-    <p className="text-slate-600 font-medium leading-relaxed">
-      כן! כחלק מנבחרת המייסדים (Founders), אנחנו מתחייבים שהמחיר המיוחד שלכם יישמר גם בחידושים הבאים, גם אם המחיר ללקוחות חדשים יעלה.
-    </p>
-  </div>
-  <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-    <h3 className="font-black text-lg text-blue-600 mb-2">199 ₪ לשנה? זה הכל?</h3>
-    <p className="text-slate-600 font-medium leading-relaxed">
-      בדיוק. פחות מ-17 ₪ לחודש – שזה פחות ממחיר של כוס קפה אחת. אנחנו מאמינים שביטחון ושקט נפשי למשפחה צריכים להיות נגישים לכל אחד.
-    </p>
-  </div>
-
+</section>
       <footer className="py-12 border-t border-slate-100 text-center text-slate-400 text-[10px] font-bold italic">
         <div className="flex justify-center gap-6 mb-4 text-slate-600 underline text-xs">
           <Link href="/terms">תנאי שימוש</Link>
