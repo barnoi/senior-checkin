@@ -201,17 +201,32 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* תשלום */}
+     {/* תשלום */}
       <section id="offer" className="py-16 px-6 text-center">
         <div className="max-w-3xl mx-auto bg-slate-900 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl border-b-12 border-blue-600">
           <div className="bg-blue-600 text-white px-4 py-1 rounded-full font-black absolute top-2 left-1/2 transform -translate-x-1/2 text-[10px] uppercase tracking-widest italic">נשארו 50 מקומות למייסדים</div>
+          
           <div className="mt-6">
             <h3 className="text-3xl md:text-4xl font-black mb-4 tracking-tighter">חבילת Founders</h3>
+            
             <div className="flex justify-center items-center gap-4 mb-4">
                <span className="text-slate-500 line-through text-xl font-bold">₪49 לחודש</span>
                <span className="text-5xl md:text-7xl font-black text-white tracking-tighter">₪199</span>
             </div>
-            <p className="text-xl font-black mb-8 text-blue-400 italic underline">תשלום חד-פעמי לכל החיים!</p>
+
+            {/* הקטע החדש והמשכנע */}
+            <div className="space-y-4 mb-8">
+              <p className="text-2xl font-black text-blue-400 italic underline decoration-2 underline-offset-8">
+                שנת שקט נפשי מלא ב-199 ₪ בלבד
+              </p>
+              <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 max-w-sm mx-auto">
+                <p className="text-sm text-slate-300 font-medium leading-relaxed">
+                  במחיר של <span className="text-blue-400 font-bold">כוס קפה אחת בחודש (17 ₪)</span>, 
+                  אתם מבטיחים שההורה תמיד מוגן ומחובר אליכם.
+                </p>
+              </div>
+            </div>
+
             <div className="max-w-xs mx-auto">
               {!paid ? (
                 !showPayment ? (
@@ -222,7 +237,9 @@ export default function LandingPage() {
                   </div>
                 )
               ) : (
-                <div className="text-green-400 font-black p-4 bg-green-400/10 rounded-xl border border-green-400/30 text-lg">🎉 ברוכים הבאים! מעביר למערכת...</div>
+                <div className="bg-green-500/20 text-green-400 p-4 rounded-xl font-bold border border-green-500/30">
+                  🎉 התשלום עבר בהצלחה! מעביר אותך לניהול המערכת...
+                </div>
               )}
             </div>
           </div>

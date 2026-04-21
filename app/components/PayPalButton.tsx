@@ -28,7 +28,7 @@ export default function PayPalButton({ amount, onSuccess }: PayPalProps) {
           createOrder: (data: any, actions: any) => {
             return actions.order.create({
               purchase_units: [{
-                description: "SeniorSafe - Lifetime Access",
+                description: "SeniorSafe - Annual Access (1 Year)",
                 amount: {
                   currency_code: "ILS",
                   value: amount
