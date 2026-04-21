@@ -242,7 +242,7 @@ export default function AdminPage() {
                   </div>
                 </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
   {/* שם המלווה */}
   <div className="space-y-2">
     <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">

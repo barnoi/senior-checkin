@@ -132,14 +132,14 @@ export default function LandingPage() {
     <h2 className="text-3xl font-black mb-12 text-center text-slate-800 tracking-tight">הרבה יותר מסתם כפתור</h2>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       
-      {/* רובריקה 1 */}
-      <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
-        <div className="text-4xl mb-4 group-hover:scale-110 transition">📞</div>
-        <h3 className="text-xl font-black mb-3 text-blue-600">קשר ישיר ומיידי</h3>
-        <p className="text-slate-600 leading-relaxed font-medium">
-          הילדים יכולים להתקשר להורה (המכותב הראשי) בלחיצה אחת מהירה מתוך המערכת, בלי לחפש אנשי קשר ברגע של דאגה.
-        </p>
-      </div>
+      {/* רובריקה 1 - מתוקנת */}
+<div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
+  <div className="text-4xl mb-4 group-hover:scale-110 transition">📞</div>
+  <h3 className="text-xl font-black mb-3 text-blue-600">קשר מהיר עבור ההורה</h3>
+  <p className="text-slate-600 leading-relaxed font-medium">
+    ההורה יכול להתקשר אלייך (המכותב הראשי) או לכל אחד מהמלווים בלחיצה אחת מהירה מתוך המערכת, בלי להסתבך עם חיפוש אנשי קשר ברגע של צורך.
+  </p>
+</div>
 
       {/* רובריקה 2 */}
       <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
