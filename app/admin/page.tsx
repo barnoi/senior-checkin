@@ -47,7 +47,40 @@ export default function AdminPage() {
     newFamily[index] = { ...newFamily[index], [field]: value };
     setFamily(newFamily);
   };
+const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
 
+  setLoading(true);
+  try {
+    // יצירת שם ייחודי לקובץ כדי שלא יהיו כפילויות
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+    
+    // 1. העלאה ל-Storage
+    const { error: uploadError } = await supabase.storage
+      .from('contact-images') // שם ה-Bucket שיצרת
+      .upload(fileName, file);
+
+    if (uploadError) throw uploadError;
+
+    // 2. קבלת הכתובת הציבורית
+    const { data } = supabase.storage
+      .from('contact-images')
+      .getPublicUrl(fileName);
+
+    // 3. עדכון הסטייט של המשפחה
+    handleLocalChange(index, 'image_url', data.publicUrl);
+    setMessage('התמונה הועלתה!');
+    setTimeout(() => setMessage(''), 2000);
+
+  } catch (err) {
+    console.error("Upload error:", err);
+    alert("שגיאה בהעלאת התמונה");
+  } finally {
+    setLoading(false);
+  }
+};
   const saveAll = async () => {
   // 1. בדיקת הגנה: אם לא אישרו את התנאים, לא שומרים
   if (!agreedToTerms) {
@@ -298,7 +331,28 @@ export default function AdminPage() {
       * המערכת תשלח התראה שעתיים אחרי השעה שתבחרו.
     </p>
   </div>
-
+{/* הוספת כפתור העלאה מהגלריה */}
+<div className="flex flex-col gap-2 mt-4 p-4 bg-blue-50/50 rounded-2xl border border-dashed border-blue-200">
+  <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
+    <span className="text-blue-500">📸</span> העלאת תמונה מהגלריה:
+  </label>
+  <input 
+    type="file" 
+    accept="image/*" 
+    onChange={(e) => handleImageUpload(e, index)}
+    className="block w-full text-xs text-slate-500
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-full file:border-0
+      file:text-xs file:font-semibold
+      file:bg-blue-600 file:text-white
+      hover:file:bg-blue-700 transition-all cursor-pointer"
+  />
+  {member.image_url && (
+    <p className="text-[10px] text-blue-600 font-bold italic mr-1">
+      ✓ התמונה עודכנה בהצלחה
+    </p>
+  )}
+</div>
   {/* קישור לתמונה */}
   <div className="space-y-2">
     <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">
