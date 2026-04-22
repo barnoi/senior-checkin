@@ -243,7 +243,7 @@ export default function LandingPage() {
                   <button onClick={() => setShowPayment(true)} className="w-full bg-blue-600 text-white py-4 rounded-xl font-black text-xl hover:bg-blue-700 transition shadow-xl animate-bounce">אני רוצה להצטרף</button>
                 ) : (
                   <div className="bg-white p-4 rounded-xl shadow-inner min-h-37.5 flex flex-col items-center justify-center">
-                    <PayPalButton amount="199.00" onSuccess={() => { setPaid(true); setTimeout(() => { window.location.href = "/admin"; }, 2000); }} />
+                    <PayPalButton amount="1.00" onSuccess={() => { setPaid(true); setTimeout(() => { window.location.href = "/admin"; }, 2000); }} />
                   </div>
                 )
               ) : (
