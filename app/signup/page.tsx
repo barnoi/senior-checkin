@@ -19,27 +19,30 @@ export default function SignupPage() {
     setLoading(true);
     const cleanEmail = email.toLowerCase().trim();
     try {
+      // רישום בטבלת customers בסופבייס
       const { error } = await supabase
         .from('customers')
         .upsert([{ 
           email: cleanEmail, 
           payment_status: 'paid', 
-          plan_type: 'founder_lifetime',
+          plan_type: 'founder_lifetime', // או 'annual' לפי מה שהחלטת
           paypal_order_id: details.id 
         }]);
 
       if (error) throw error;
       
+      // שמירה מקומית כדי שהאדמין יזהה אותו
       localStorage.setItem('senior_user_email', cleanEmail);
       setIsPaid(true);
 
+      // מעבר לדף ניהול המלווים
       setTimeout(() => {
-        window.location.href = '/success';
+        window.location.href = '/admin'; // שיניתי מ-success ל-admin
       }, 2000);
 
     } catch (err) {
       console.error("Error saving payment:", err);
-      alert("התשלום עבר אך נתקלנו בבעיה ברישום.");
+      alert("התשלום עבר אך נתקלנו בבעיה ברישום. צרו קשר עם התמיכה.");
     } finally {
       setLoading(false);
     }

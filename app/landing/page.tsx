@@ -304,12 +304,13 @@ export default function LandingPage() {
   </div>
 </section>
       <footer className="py-12 border-t border-slate-100 text-center text-slate-400 text-[10px] font-bold italic">
-        <div className="flex justify-center gap-6 mb-4 text-slate-600 underline text-xs">
-          <Link href="/terms">תנאי שימוש</Link>
-          <Link href="/privacy">פרטיות</Link>
-        </div>
-        <p className="opacity-60 italic">© 2026 SeniorSafe • hello@communicateclever.com</p>
-      </footer>
+  <div className="flex justify-center gap-6 mb-4 text-slate-600 underline text-xs">
+    <Link href="/terms">תנאי שימוש</Link>
+    <Link href="/privacy">פרטיות</Link>
+    <Link href="/support" className="text-blue-600">מרכז תמיכה</Link>
+  </div>
+  <p className="opacity-60 italic">© 2026 SeniorSafe • hello@communicateclever.com</p>
+</footer>
     </div>
   );
 }
