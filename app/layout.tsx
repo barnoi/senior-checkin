@@ -20,7 +20,8 @@ export const metadata: Metadata = {
     siteName: "SeniorSafe",
     images: [
       {
-        url: "https://senior.communicateclever.com/app-screenshot.png", // שינוי לנתיב מלא
+        // שורה 23 ב-layout.tsx צריכה להיראות כך:
+url: "https://lytkztprahzwvusyhmke.supabase.co/storage/v1/object/public/contact-images/app-screenshot.png", // שינוי לנתיב מלא
         width: 1200,
         height: 630,
         alt: "SeniorSafe App Preview",
