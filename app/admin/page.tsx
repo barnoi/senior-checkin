@@ -49,62 +49,64 @@ export default function AdminPage() {
   };
 
   const saveAll = async () => {
-    // בדיקת הגנה: אם לא אישרו את התנאים, לא שומרים
-    if (!agreedToTerms) {
-      alert("יש לאשר את הסכמת המלווים ותנאי השימוש לפני השמירה.");
-      return;
-    }
+  // 1. בדיקת הגנה: אם לא אישרו את התנאים, לא שומרים
+  if (!agreedToTerms) {
+    alert("יש לאשר את הסכמת המלווים ותנאי השימוש לפני השמירה.");
+    return;
+  }
 
-    setLoading(true);
-    setMessage('שומר שינויים...');
-    const userEmail = localStorage.getItem('senior_user_email');
+  setLoading(true);
+  setMessage('שומר שינויים...');
+  const userEmail = localStorage.getItem('senior_user_email');
 
-    if (!userEmail) {
-      alert("שגיאה: מייל משתמש לא נמצא.");
-      setLoading(false);
-      return;
-    }
+  if (!userEmail) {
+    alert("שגיאה: מייל משתמש לא נמצא.");
+    setLoading(false);
+    return;
+  }
 
-    try {
-      for (const member of family) {
-        const payload = {
-          name: member.name,
-          phone: member.phone,
-          image_url: member.image_url,
-          customer_email: userEmail
-        };
+  try {
+    // שליפת השעה מהמלווה הראשון (השעה אחידה לכל המלווים של אותו לקוח)
+    // אם יש לך משתנה אחר ב-state ששומר את השעה, אפשר להשתמש בו במקום.
+    const selectedTime = family[0]?.alert_time || "09:00";
 
-        if (member.id) {
-          const { error } = await supabase
-            .from('contacts')
-            .update({
-              name: member.name,
-              phone: member.phone,
-              image_url: member.image_url
-            })
-            .eq('id', member.id);
-          if (error) throw error;
-        } else {
-          const { error } = await supabase
-            .from('contacts')
-            .insert([payload]);
-          if (error) throw error;
-        }
+    for (const member of family) {
+      const payload = {
+        name: member.name,
+        phone: member.phone,
+        image_url: member.image_url,
+        customer_email: userEmail,
+        alert_time: selectedTime // הוספנו את השעה ל-payload
+      };
+
+      if (member.id) {
+        // עדכון מלווה קיים - הוספנו את ה-payload המלא הכולל את השעה
+        const { error } = await supabase
+          .from('contacts')
+          .update(payload)
+          .eq('id', member.id);
+        if (error) throw error;
+      } else {
+        // הוספת מלווה חדש - ה-payload כולל את השעה
+        const { error } = await supabase
+          .from('contacts')
+          .insert([payload]);
+        if (error) throw error;
       }
-
-      setMessage('הכל נשמר בהצלחה! ✨');
-      setTimeout(() => {
-        window.location.href = '/checkin';
-      }, 2000);
-
-    } catch (err: any) {
-      console.error('Save error:', err);
-      alert("שגיאה בשמירה: " + err.message);
-    } finally {
-      setLoading(false);
     }
-  };
 
+    setMessage('הכל נשמר בהצלחה! ✨');
+    setTimeout(() => {
+      window.location.href = '/checkin';
+    }, 2000);
+
+  } catch (err: any) {
+    console.error('Save error:', err);
+    alert("שגיאה בשמירה: " + err.message);
+  } finally {
+    setLoading(false);
+  }
+};
   const addEmptyRow = () => {
     setFamily([...family, { name: '', phone: '', image_url: '' }]);
   };

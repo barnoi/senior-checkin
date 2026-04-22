@@ -21,13 +21,13 @@ export default function SignupPage() {
     try {
       // רישום בטבלת customers בסופבייס
       const { error } = await supabase
-        .from('customers')
-        .upsert([{ 
-          email: cleanEmail, 
-          payment_status: 'paid', 
-          plan_type: 'founder_lifetime', // או 'annual' לפי מה שהחלטת
-          paypal_order_id: details.id 
-        }]);
+  .from('customers')
+  .upsert([{ 
+    email: cleanEmail, 
+    payment_status: 'paid', 
+    plan_type: 'founder_lifetime'
+    // הסרנו את paypal_order_id כי הוא לא קיים בטבלה שלך
+  }]);
 
       if (error) throw error;
       
