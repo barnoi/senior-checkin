@@ -37,8 +37,19 @@ export default function AdminPage() {
     }
   }, []);
 
-  useEffect(() => {
+ useEffect(() => {
     setIsMounted(true);
+
+    // בדיקה האם המשתמשת הגיעה מהקישור במייל
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailFromUrl = urlParams.get('email');
+    
+    if (emailFromUrl) {
+      // שמירה אוטומטית בזיכרון של הדפדפן כדי למנוע כשל בהתחברות
+      localStorage.setItem('senior_user_email', emailFromUrl);
+      console.log('User connected via magic link:', emailFromUrl);
+    }
+
     fetchFamily();
   }, [fetchFamily]);
 
@@ -127,7 +138,17 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 
         if (error) throw error;
       }
     }
-
+// שליחת מייל ברוכים הבאים עם הוראות התקנה
+    try {
+      await fetch('/api/send-welcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: userEmail }),
+      });
+      console.log('Welcome email sent to:', userEmail);
+    } catch (emailErr) {
+      console.error('Failed to send welcome email:', emailErr);
+    }
     setMessage('הכל נשמר בהצלחה! ✨');
     setTimeout(() => {
       window.location.href = '/checkin';
