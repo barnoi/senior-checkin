@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+// פונקציית עזר להשהיה (Delay)
+const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
 export async function GET(request: Request) {
   // אבטחה מותאמת ל-Vercel Cron
   const isCron = request.headers.get('x-vercel-cron') === '1';
@@ -41,16 +44,20 @@ export async function GET(request: Request) {
         .gte('created_at', todayIso);
 
       if (!checkins || checkins.length === 0) {
+        // שליחת ההודעה דרך UltraMsg
         await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({
             token: token,
             to: contact.phone,
-            // שימוש בעמודה name שקיימת אצלך בטבלה
             body: `⚠️ התראת SeniorSafe: לא התקבל עדכון בוקר מ${contact.name || 'ההורה'}. מומלץ לבדוק מה שלומו. ❤️`
           })
         });
+
+        // --- כאן הוספתי את ההשהיה ---
+        console.log(`הודעה נשלחה ל-${contact.name}, ממתין 5 שניות למניעת עומס...`);
+        await delay(5000); 
       }
     }
 

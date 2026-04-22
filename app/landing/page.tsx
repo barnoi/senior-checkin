@@ -61,14 +61,14 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-right text-slate-900" dir="rtl" suppressHydrationWarning>
       
-      {/* Navbar */}
-      <nav className="p-4 md:p-6 max-w-6xl mx-auto flex justify-between items-center border-b border-slate-50 sticky top-0 bg-white/80 backdrop-blur-md z-50">
-       <div className="flex flex-col items-center mb-8">
-  <h1 className="text-6xl font-black tracking-tighter text-slate-900">SeniorSafe</h1>
-  <p className="text-[11px] font-bold text-blue-600 uppercase tracking-[0.65em] mr-[-0.65em]">
-    גשר דיגיטלי למשפחה
-  </p>
-</div>
+     {/* Navbar */}
+<nav className="p-4 md:p-6 max-w-6xl mx-auto flex justify-between items-center border-b border-slate-50 sticky top-0 bg-white/80 backdrop-blur-md z-50">
+  <div className="flex flex-col items-center"> {/* הסרתי את ה-mb-8 כדי שישב יפה בתוך התפריט */}
+    <h1 className="text-2xl md:text-4xl font-black tracking-tighter text-slate-900 leading-none">SeniorSafe</h1>
+    <p className="text-[8px] md:text-[10px] font-bold text-blue-600 uppercase tracking-[0.2em] mr-[-0.2em] mt-1">
+      גשר דיגיטלי למשפחה
+    </p>
+  </div>
         <div className="flex gap-2 md:gap-4 items-center">
           <Link href="/about" className="text-slate-500 font-bold hover:text-blue-600 transition text-xs md:text-sm whitespace-nowrap">הסיפור שלנו</Link>
           <button 

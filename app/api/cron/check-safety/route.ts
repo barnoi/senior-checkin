@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+// פונקציית עזר להשהיה (Delay)
+const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
 export async function GET(request: Request) {
   console.log("--- תחילת בדיקת בטיחות אוטומטית (Cron Job) ---");
 
-  // 1. אימות אבטחה - מוודא שהקריאה מגיעה מוורסל או עם סיסמה נכונה
+  // 1. אימות אבטחה
   const authHeader = request.headers.get('authorization');
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     console.error("ניסיון גישה לא מורשה ל-Cron");
@@ -17,7 +20,6 @@ export async function GET(request: Request) {
   );
 
   try {
-    // 2. הגדרת טווח הזמן של "היום" (מחצות הלילה ועד עכשיו)
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const todayIso = today.toISOString();
@@ -32,18 +34,18 @@ export async function GET(request: Request) {
 
     if (checkError) throw checkError;
 
-    // 4. אם נמצא צ'ק-אין - הכל בסדר, לא עושים כלום
+    // 4. אם נמצא צ'ק-אין - הכל בסדר
     if (checkins && checkins.length > 0) {
       console.log(`נמצאו ${checkins.length} עדכונים מהיום. אין צורך לשלוח התראה.`);
       return NextResponse.json({ message: 'All good, parent checked in today.' });
     }
 
-    // 5. אם לא נמצא צ'ק-אין - שולחים התראת חירום לילדים
+    // 5. אם לא נמצא צ'ק-אין - שולחים התראת חירום למלווים
     console.warn("לא נמצא עדכון מהיום! מתחיל שליחת התראות...");
 
     const { data: contacts, error: contactsError } = await supabase
       .from('contacts')
-      .select('phone');
+      .select('phone, name'); // הוספתי שליפה של השם לטובת הלוגים
 
     if (contactsError) throw contactsError;
 
@@ -61,7 +63,10 @@ export async function GET(request: Request) {
             body: "⚠️ התראת SeniorSafe: אמא טרם שלחה עדכון הבוקר. מומלץ להתקשר ולבדוק שהכל בסדר. ❤️"
           })
         });
-        console.log(`התראה נשלחה לטלפון: ${contact.phone}`);
+        
+        // --- הוספת ההשהיה כאן ---
+        console.log(`התראה נשלחה ל: ${contact.name || contact.phone}, ממתין 4 שניות...`);
+        await delay(4000); 
       }
     }
 
