@@ -83,6 +83,8 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <header className="py-8 md:py-16 px-6 max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-12 items-center">
+        
+        {/* Mockup */}
         <div className="order-1 md:order-2 relative justify-self-center">
           <div className="relative mx-auto w-56 h-112.5 md:w-70 md:h-145 bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] border-8 md:border-12 border-slate-900 shadow-2xl overflow-hidden ring-8 ring-slate-100/50 transform rotate-1 md:rotate-2">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 md:w-24 h-5 md:h-6 bg-slate-900 rounded-b-2xl z-20 flex items-center justify-center">
@@ -95,6 +97,7 @@ export default function LandingPage() {
           <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 md:w-72 md:h-72 bg-blue-100 rounded-full blur-3xl opacity-60"></div>
         </div>
 
+        {/* Text Section */}
         <div className="order-2 md:order-1 text-center md:text-right">
           <span className="bg-blue-50 text-blue-800 px-3 py-1 rounded-lg text-[10px] md:text-xs font-bold mb-4 inline-block italic">
             פיתוח של מרפאה בעיסוק מומחית לגיל השלישי
@@ -130,47 +133,58 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-black mb-12 text-center text-slate-800 tracking-tight">הרבה יותר מסתם כפתור</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
             <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
               <div className="text-4xl mb-4 group-hover:scale-110 transition">📞</div>
               <h3 className="text-xl font-black mb-3 text-blue-600">קשר מהיר עבור ההורה</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">ההורה יכול להתקשר אלייך (המכותב הראשי) או לכל אחד מהמלווים בלחיצה אחת מהירה מתוך המערכת.</p>
+              <p className="text-slate-600 leading-relaxed font-medium">
+                ההורה יכול להתקשר אלייך (המכותב הראשי) או לכל אחד מהמלווים בלחיצה אחת מהירה מתוך המערכת, בלי להסתבך עם חיפוש אנשי קשר ברגע של צורך.
+              </p>
             </div>
+
             <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-md transition group">
               <div className="text-4xl mb-4 group-hover:scale-110 transition">💬</div>
               <h3 className="text-xl font-black mb-3 text-blue-600">עדכון אוטומטי למשפחה</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">ברגע שההורה לוחץ על הכפתור, נשלחת הודעת וואטסאפ מרגיעה לכל רשימת המלווים.</p>
+              <p className="text-slate-600 leading-relaxed font-medium">
+                ברגע שההורה לוחץ על הכפתור, נשלחת הודעת וואטסאפ מרגיעה לכל רשימת המלווים שהגדרתם מראש. כולם מעודכנים בבת אחת.
+              </p>
             </div>
+
             <div className="p-8 rounded-3xl bg-blue-600 text-white shadow-xl hover:shadow-2xl transition group transform md:-translate-y-2">
               <div className="text-4xl mb-4 group-hover:rotate-12 transition">🔔</div>
               <h3 className="text-xl font-black mb-3">מנגנון התראה אקטיבי</h3>
-              <p className="text-blue-50 leading-relaxed font-medium">אם ההורה לא לחץ על הפעמון בזמן שקבעתם – המערכת שולחת לכם התראה אוטומטית.</p>
+              <p className="text-blue-50 leading-relaxed font-medium">
+                <span className="font-black underline">זה הפלא האמיתי:</span> אם ההורה לא לחץ על הפעמון שעתיים אחרי המועד שקבעתם – המערכת שולחת לכם התראה אוטומטית: 
+                <span className="block mt-2 font-black italic">"כדאי שתבדקו, אמא לא עדכנה היום."</span>
+              </p>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* Steps */}
+      {/* 4 שלבים */}
       <section id="steps" className="py-16 bg-slate-100 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-black mb-12 italic">איך זה עובד ב-4 שלבים?</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                {[
-                { num: "01", title: "נרשמים", desc: "בוחרים עד 5 בני משפחה שיקבלו את העדכונים." },
-                { num: "02", title: "הלחיצה", desc: "ההורה לוחץ על הכפתור הירוק בבוקר מהנייד." },
-                { num: "03", title: "שקט", desc: "כל המשפחה מקבלת הודעה אוטומטית שהכל בסדר." },
-                { num: "04", title: "ביטחון", desc: "התראה מיידית אם לא בוצע עדכון בזמן שנקבע." }
-                ].map((step, i) => (
-                <div key={i} className="p-6 bg-white rounded-3xl shadow-sm border border-slate-200">
-                    <div className="text-blue-500 font-black text-3xl mb-3">{step.num}</div>
-                    <h3 className="font-black text-base mb-2 text-slate-800">{step.title}</h3>
-                    <p className="text-slate-500 text-xs font-medium leading-relaxed">{step.desc}</p>
-                </div>
-                ))}
-            </div>
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-black text-center mb-12 italic">איך זה עובד ב-4 שלבים?</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { num: "01", title: "נרשמים", desc: "בוחרים עד 5 בני משפחה שיקבלו את העדכונים." },
+              { num: "02", title: "הלחיצה", desc: "ההורה לוחץ על הכפתור הירוק בבוקר מהנייד." },
+              { num: "03", title: "שקט", desc: "כל המשפחה מקבלת הודעה אוטומטית שהכל בסדר." },
+              { num: "04", title: "ביטחון", desc: "התראה מיידית אם לא בוצע עדכון בזמן שנקבע." }
+            ].map((step, i) => (
+              <div key={i} className="p-6 bg-white rounded-3xl shadow-sm text-center border border-slate-200">
+                <div className="text-blue-500 font-black text-3xl mb-3">{step.num}</div>
+                <h3 className="font-black text-base mb-2 text-slate-800">{step.title}</h3>
+                <p className="text-slate-500 text-xs font-medium leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* טסטמוניאלס */}
       <section className="py-16 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-black text-center mb-12 text-slate-800 italic underline decoration-blue-500 underline-offset-8">מה המשפחות שלנו אומרות</h2>
@@ -186,7 +200,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Offer Section */}
+     {/* תשלום */}
       <section id="offer" className="py-16 px-6 text-center">
         <div className="max-w-3xl mx-auto bg-slate-900 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl border-b-12 border-blue-600">
           <div className="bg-blue-600 text-white px-4 py-1 rounded-full font-black absolute top-2 left-1/2 transform -translate-x-1/2 text-[10px] uppercase tracking-widest italic">נשארו 50 מקומות למייסדים</div>
@@ -207,48 +221,62 @@ export default function LandingPage() {
             </div>
 
             <div className="space-y-4 mb-8">
-              <p className="text-2xl font-black text-blue-400 italic underline decoration-2 underline-offset-8">שנת שקט נפשי מלא ב-199 ₪ בלבד</p>
+              <p className="text-2xl font-black text-blue-400 italic underline decoration-2 underline-offset-8">
+                שנת שקט נפשי מלא ב-199 ₪ בלבד
+              </p>
+              <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 max-w-sm mx-auto">
+                <p className="text-sm text-slate-300 font-medium leading-relaxed">
+                  במחיר של <span className="text-blue-400 font-bold">כוס קפה אחת בחודש (17 ₪)</span>, 
+                  אתם מבטיחים שההורה תמיד מוגן ומחובר אליכם.
+                </p>
+              </div>
             </div>
 
-            {/* Action Area */}
-            <div className="max-w-xs mx-auto space-y-4">
+            {/* ACTION AREA - NO REDUCTION */}
+            <div className="max-w-xs mx-auto space-y-6">
               {!paid ? (
-                <>
-                  {/* שדה הקופון - מעוצב בצורה דיסקרטית */}
-                  <input
-                    type="text"
-                    placeholder="קוד קופון?"
-                    className="w-full bg-slate-800/60 border border-slate-700 rounded-lg py-2 px-4 text-center text-sm text-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
-                    value={coupon}
-                    onChange={(e) => {
-                      const val = e.target.value.toUpperCase();
-                      setCoupon(val);
-                      if (val === 'FREE-FAMILY') {
-                        setPaid(true);
-                        setTimeout(() => { router.push("/admin"); }, 1500);
-                      }
-                    }}
-                  />
+                <div className="flex flex-col gap-6">
+                  
+                  {/* COUPON FIELD - ALWAYS VISIBLE ABOVE PAYPAL */}
+                  <div className="space-y-2">
+                    <label className="text-[10px] text-slate-500 font-bold uppercase tracking-widest block">יש לך קוד הנחה?</label>
+                    <input
+                      type="text"
+                      placeholder="הזן קוד כאן"
+                      className="w-full bg-slate-800/50 border border-slate-700 rounded-xl py-3 px-4 text-center text-white focus:border-blue-500 outline-none transition-all uppercase text-sm"
+                      value={coupon}
+                      onChange={(e) => {
+                        const val = e.target.value.toUpperCase();
+                        setCoupon(val);
+                        if (val === 'FREE-FAMILY') {
+                          setPaid(true);
+                          setTimeout(() => { router.push("/admin"); }, 1500);
+                        }
+                      }}
+                    />
+                  </div>
 
-                  {!showPayment ? (
-                    <button 
-                      onClick={() => setShowPayment(true)} 
-                      className="w-full bg-blue-600 text-white py-4 rounded-xl font-black text-xl hover:bg-blue-700 transition shadow-xl animate-bounce"
-                    >
-                      אני רוצה להצטרף
-                    </button>
-                  ) : (
-                    <div className="bg-white p-4 rounded-xl shadow-inner min-h-37.5 flex flex-col items-center justify-center overflow-hidden">
-                      <PayPalButton amount="199.00" onSuccess={() => { 
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-slate-800"></span></div>
+                    <div className="relative flex justify-center text-[9px] uppercase"><span className="bg-slate-900 px-3 text-slate-600 font-black italic">אפשרויות תשלום</span></div>
+                  </div>
+
+                  {/* PAYPAL COMPONENT */}
+                  <div className="bg-white p-4 rounded-2xl shadow-inner min-h-[160px] flex items-center justify-center overflow-hidden">
+                    <PayPalButton 
+                      amount="199.00" 
+                      onSuccess={() => { 
                         setPaid(true); 
-                        setTimeout(() => { router.push("/admin"); }, 1500); 
-                      }} />
-                    </div>
-                  )}
-                </>
+                        setTimeout(() => { router.push("/admin"); }, 2000); 
+                      }} 
+                    />
+                  </div>
+
+                </div>
               ) : (
-                <div className="bg-green-500/20 text-green-400 p-6 rounded-2xl font-bold border border-green-500/30">
-                  🎉 ברוכים הבאים! <br/> מעביר אותך לניהול המערכת...
+                <div className="bg-green-500/20 text-green-400 p-8 rounded-3xl font-black border border-green-500/30 animate-pulse text-lg">
+                  🎉 התשלום התקבל בהצלחה! <br/>
+                  <span className="text-sm font-medium">מעביר אותך לדף הניהול...</span>
                 </div>
               )}
             </div>
@@ -256,34 +284,62 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* שאלות ותשובות מורחבות - FULL LIST */}
       <section className="py-16 px-6 bg-white">
         <h2 className="text-3xl font-black text-center mb-12 text-slate-900">שאלות נפוצות</h2>
         <div className="max-w-2xl mx-auto space-y-4 text-right" dir="rtl">
           {[
-            { q: "איך מוסיפים את SeniorSafe כ\"אייקון\" על מסך הבית?", a: "פתחו את האתר בטלפון. באייפון: לחצו על שתף ובחרו הוסף למסך הבית. באנדרואיד: לחצו על שלוש הנקודות בדפדפן ובחרו הוסף למסך הבית." },
-            { q: "איך אני מוצא/ת קישור (URL) לתמונה?", a: "העלו את התמונה לוואטסאפ במחשב, קליק ימני ובחרו העתק כתובת תמונה. הדביקו בהגדרות המלווה." },
-            { q: "מה קורה אם ההורה שוכח ללחוץ?", a: "המערכת תמתין לשעה שהגדרתם, ואז תשלח הודעת וואטסאפ אוטומטית לכל המלווים." },
-            { q: "האם המחיר יישאר לי גם בשנה הבאה?", a: "כן! כחלק מנבחרת המייסדים, המחיר שלכם יישמר גם בחידושים הבאים." }
-          ].map((faq, i) => (
-            <details key={i} className="group border border-slate-200 rounded-2xl p-4 bg-slate-50 cursor-pointer transition-all hover:bg-white hover:shadow-md">
+            { 
+              q: "איך מוסיפים את SeniorSafe כ\"אייקון\" על מסך הבית?", 
+              a: "פתחו את האתר בטלפון. באייפון: לחצו על כפתור ה-\"שתף\" (מרובע עם חץ למעלה) ובחרו \"הוסף למסך הבית\". באנדרואיד: לחצו על שלוש הנקודות בדפדפן ובחרו \"התקן אפליקציה\" או \"הוסף למסך הבית\"." 
+            },
+            { 
+              q: "איך אני מוצא/ת קישור (URL) לתמונה?", 
+              a: "העלו את התמונה הרצויה לוואטסאפ במחשב (WhatsApp Web), קליק ימני על התמונה ובחרו \"העתק כתובת תמונה\". הדביקו את הקישור שקיבלתם בהגדרות המלווה במערכת." 
+            },
+            { 
+              q: "מהו פורמט מספר הטלפון המדויק?", 
+              a: "יש להזין פורמט בינלאומי ללא סימנים כלל. לדוגמה: 972541234567 (שימו לב: ללא ה-0 בהתחלה וללא סימן ה-+)." 
+            },
+            { 
+              q: "מה קורה אם ההורה שוכח ללחוץ?", 
+              a: "המערכת תמתין עד לשעה המדויקת שהגדרתם. במידה ולא התקבל עדכון מההורה עד לאותה שעה, תשלח הודעת וואטסאפ אוטומטית לכל המלווים שרשמתם במערכת." 
+            },
+            { 
+              q: "מה קורה בתום השנה? האם תהיה לי גישה לנתונים?", 
+              a: "נשלח לכם תזכורת ידידותית חודש לפני תום המנוי כדי שתוכלו לחדש אותו בקלות. לא ביצענו חיוב אוטומטי, כך שאתם תמיד בשליטה מלאה." 
+            },
+            { 
+              q: "האם המחיר של 199 ₪ יישאר לי גם בשנה הבאה?", 
+              a: "כן! כחלק מנבחרת המייסדים (Founders), אנחנו מתחייבים שהמחיר המיוחד שלכם יישמר גם בחידושים הבאים." 
+            },
+            { 
+              q: "199 ₪ לשנה? זה הכל?", 
+              a: "בדיוק. פחות מ-17 ₪ לחודש – שזה פחות ממחיר של כוס קפה אחת. אנחנו מאמינים שביטחון ושקט נפשי למשפחה צריכים להיות נגישים לכל אחד." 
+            }
+          ].map((faq, index) => (
+            <details key={index} className="group border border-slate-200 rounded-2xl p-4 bg-slate-50 [&_summary::-webkit-details-marker]:hidden cursor-pointer transition-all hover:bg-white hover:shadow-md">
               <summary className="flex justify-between items-center font-black text-lg text-slate-900">
                 <span className="ml-4">{faq.q}</span>
-                <span className="text-blue-600 group-open:rotate-180 transition-transform">▼</span>
+                <span className="text-blue-600 transition-transform duration-300 group-open:rotate-180">▼</span>
               </summary>
-              <p className="mt-4 text-slate-900 font-medium leading-relaxed border-t border-slate-200 pt-4">{faq.a}</p>
+              <p className="mt-4 text-slate-900 font-medium leading-relaxed border-t border-slate-200 pt-4">
+                {faq.a}
+              </p>
             </details>
           ))}
         </div>
       </section>
 
+      {/* FOOTER */}
       <footer className="py-12 border-t border-slate-100 text-center text-slate-400 text-[10px] font-bold italic">
         <div className="flex justify-center gap-6 mb-4 text-slate-600 underline text-xs">
           <Link href="/terms">תנאי שימוש</Link>
           <Link href="/privacy">פרטיות</Link>
           <Link href="/support" className="text-blue-600">מרכז תמיכה</Link>
         </div>
-        <p>© 2026 SeniorSafe • hello@communicateclever.com</p>
+        <p className="opacity-60 italic">© 2026 SeniorSafe • hello@communicateclever.com</p>
+        <p className="mt-2 opacity-40 uppercase tracking-widest text-[8px]">Crafted for Families, by Caregivers</p>
       </footer>
     </div>
   );
