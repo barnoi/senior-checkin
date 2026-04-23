@@ -261,7 +261,7 @@ export default function LandingPage() {
                 <div className="flex flex-col gap-6">
 
                   {/* COUPON FIELD */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 opacity-60 hover:opacity-100 transition-opacity">
                     <label className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">יש לך קוד הנחה?</label>
                     <input
                       type="text"
@@ -285,7 +285,7 @@ export default function LandingPage() {
                   </div>
 
                   {/* PAYPAL COMPONENT */}
-                  <div className="bg-white p-4 rounded-2xl shadow-inner min-h-[160px] flex items-center justify-center overflow-hidden">
+                  <div className="bg-white p-4 rounded-2xl shadow-inner min-h-40 flex items-center justify-center overflow-hidden">
                     <PayPalButton
                       amount="199.00"
                       onSuccess={() => {
