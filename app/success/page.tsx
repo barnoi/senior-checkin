@@ -1,26 +1,19 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function SuccessPage() {
+function SuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // שליפת המייל מה-URL (בהנחה שפייפאל/מערכת התשלומים מחזירה אותו כפרמטר)
     const email = searchParams.get('email');
-    
     if (email) {
-      // שמירה ב-LocalStorage באותיות קטנות - קריטי לסנכרון שסידרנו!
       localStorage.setItem('senior_user_email', email.toLowerCase().trim());
-      console.log('Payment success for:', email);
     }
-
-    // השהייה של 5 שניות כדי לאפשר קריאה של ההנחיות לפני מעבר אוטומטי
     const timer = setTimeout(() => {
       router.push('/admin');
     }, 5000);
-    
     return () => clearTimeout(timer);
   }, [router, searchParams]);
 
@@ -53,5 +46,13 @@ export default function SuccessPage() {
         <p className="text-xs text-slate-400 italic">מעביר לניהול מלווים בעוד מספר שניות...</p>
       </div>
     </div>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">טוען...</div>}>
+      <SuccessContent />
+    </Suspense>
   );
 }
