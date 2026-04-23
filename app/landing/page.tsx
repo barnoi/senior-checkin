@@ -162,7 +162,23 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
+{/* CTA Banner */}
+      <section className="py-10 bg-blue-600 px-6 text-center">
+        <div className="max-w-2xl mx-auto">
+          <p className="text-white font-black text-xl md:text-2xl mb-2">
+            מוכנים לשקט נפשי אמיתי?
+          </p>
+          <p className="text-blue-100 text-sm mb-6 font-medium">
+            הצטרפו למשפחות שכבר נרגעו — שנה שלמה ב-199 ₪
+          </p>
+          <button
+            onClick={() => document.getElementById('offer')?.scrollIntoView({ behavior: 'smooth' })}
+            className="bg-white text-blue-700 px-8 py-4 rounded-2xl font-black text-lg hover:bg-blue-50 transition shadow-xl hover:scale-105 active:scale-95"
+          >
+            אני רוצה להצטרף →
+          </button>
+        </div>
+      </section>
       {/* 4 שלבים */}
       <section id="steps" className="py-16 bg-slate-100 px-6">
         <div className="max-w-6xl mx-auto">
@@ -184,21 +200,19 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* טסטמוניאלס */}
-      <section className="py-16 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-black text-center mb-12 text-slate-800 italic underline decoration-blue-500 underline-offset-8">מה המשפחות שלנו אומרות</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <div key={i} className="bg-slate-50 p-6 rounded-3xl border border-slate-100 shadow-sm italic text-right">
-                <p className="text-slate-600 mb-4 text-xs md:text-sm font-medium leading-relaxed">"{t.text}"</p>
-                <div className="font-black text-slate-800 text-xs">{t.name}</div>
-                <div className="text-blue-600 text-[10px] font-bold">{t.role}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+     {testimonials.map((t, i) => (
+  <div key={i} className="bg-slate-50 p-6 rounded-3xl border border-slate-100 shadow-sm italic text-right">
+    <div className="flex justify-end mb-3">
+      <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-lg font-black text-blue-600">
+        {t.name.charAt(0)}
+      </div>
+    </div>
+    <div className="text-yellow-400 text-xs mb-2">★★★★★</div>
+    <p className="text-slate-600 mb-4 text-xs md:text-sm font-medium leading-relaxed">"{t.text}"</p>
+    <div className="font-black text-slate-800 text-xs">{t.name}</div>
+    <div className="text-blue-600 text-[10px] font-bold">{t.role}</div>
+  </div>
+))}
 
      {/* תשלום */}
       <section id="offer" className="py-16 px-6 text-center">
@@ -248,7 +262,7 @@ export default function LandingPage() {
                       onChange={(e) => {
                         const val = e.target.value.toUpperCase();
                         setCoupon(val);
-                        if (val === 'FREE-FAMILY') {
+                        if (val === 'FREE-FAMILY20') {
                           setPaid(true);
                           setTimeout(() => { router.push("/admin"); }, 1500);
                         }
