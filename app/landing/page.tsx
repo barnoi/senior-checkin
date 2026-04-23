@@ -235,30 +235,50 @@ export default function LandingPage() {
             <div className="max-w-xs mx-auto space-y-4">
               {!paid ? (
                 !showPayment ? (
-                  <button onClick={() => setShowPayment(true)} className="w-full bg-blue-600 text-white py-4 rounded-xl font-black text-xl hover:bg-blue-700 transition shadow-xl animate-bounce">אני רוצה להצטרף</button>
+                  <div className="flex flex-col items-center gap-4">
+                    <button onClick={() => setShowPayment(true)} className="w-full bg-blue-600 text-white py-4 rounded-xl font-black text-xl hover:bg-blue-700 transition shadow-xl animate-bounce">אני רוצה להצטרף</button>
+                    
+                    {/* שדה קופון דיסקרטי - מופיע מתחת לכפתור */}
+                    <div className="pt-2">
+                      <input
+                        type="text"
+                        placeholder="יש לך קוד?"
+                        className="bg-transparent border-b border-slate-700 text-slate-500 text-center text-[11px] focus:outline-none focus:border-blue-500 w-24 py-1"
+                        value={coupon}
+                        onChange={(e) => {
+                          const val = e.target.value.toUpperCase();
+                          setCoupon(val);
+                          if (val === 'FREE-FAMILY') {
+                            setPaid(true);
+                            setTimeout(() => { router.push("/admin"); }, 1500);
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
                 ) : (
                   <div className="flex flex-col gap-4">
-                    {/* שדה קוד קופון - נוסף כאן */}
-                    <input
-                      type="text"
-                      placeholder="קוד קופון (משפחה וחברים)"
-                      className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-white text-center font-bold placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition"
-                      value={coupon}
-                      onChange={(e) => {
-                        const val = e.target.value.toUpperCase();
-                        setCoupon(val);
-                        if (val === 'FREE-FAMILY20') {
-                          setPaid(true);
-                          setTimeout(() => { router.push("/admin"); }, 1500);
-                        }
-                      }}
-                    />
                     <div className="bg-white p-4 rounded-xl shadow-inner min-h-37.5 flex flex-col items-center justify-center">
                       <PayPalButton amount="199.00" onSuccess={() => { 
                         setPaid(true); 
                         setTimeout(() => { router.push("/admin"); }, 2000); 
                       }} />
                     </div>
+                    {/* שדה קופון משני למקרה שפתחו את פיפל */}
+                    <input
+                      type="text"
+                      placeholder="קוד הנחה"
+                      className="bg-transparent text-slate-600 text-[10px] text-center focus:outline-none"
+                      value={coupon}
+                      onChange={(e) => {
+                        const val = e.target.value.toUpperCase();
+                        setCoupon(val);
+                        if (val === 'FREE-FAMILY') {
+                          setPaid(true);
+                          setTimeout(() => { router.push("/admin"); }, 1500);
+                        }
+                      }}
+                    />
                   </div>
                 )
               ) : (
