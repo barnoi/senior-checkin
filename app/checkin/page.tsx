@@ -29,7 +29,6 @@ export default function Page() {
       if (error) throw error;
 
       if (!data || data.length === 0) {
-        // אם המייל לא נמצא בבסיס הנתונים - מנקים ומונעים גישה
         localStorage.removeItem('senior_user_email');
         setFamily([]);
       } else {
@@ -137,8 +136,18 @@ export default function Page() {
         <div className="relative flex items-center justify-center w-full aspect-square max-w-90 flex-1 -mt-5">
           {family.slice(0, 5).map((member, index) => {
             const pos = [{top:0,left:3},{top:5,left:65},{top:50,left:-3},{top:60,left:70},{top:70,left:25}][index];
-            let cleanUrl = (member.image_url || member.img || "").match(/(https?:\/\/[^\s\]\)]+)/)?.[0] || "";
-            const finalImage = cleanUrl ? `${cleanUrl}${cleanUrl.includes('?') ? '&' : '?'}v=${new Date().getTime()}` : `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=random`;
+            
+            // לוגיקת בחירת תמונה מתוקנת:
+            const rawImg = member.image_url || member.img || "";
+            let finalImage = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=random`;
+            
+            if (rawImg.startsWith('data:')) {
+              // זו תמונת Base64 שהעלינו מהגלריה - נציג אותה כמו שהיא
+              finalImage = rawImg;
+            } else if (rawImg.startsWith('http')) {
+              // זה קישור רגיל - נוסיף לו Timestamp למניעת Cache
+              finalImage = `${rawImg}${rawImg.includes('?') ? '&' : '?'}v=${new Date().getTime()}`;
+            }
 
             return (
               <div key={member.id || index} className="absolute flex flex-col items-center z-10" style={{ top: `${pos.top}%`, left: `${pos.left}%` }}>
@@ -181,7 +190,8 @@ export default function Page() {
           <div className="bg-white rounded-[2.5rem] p-8 w-full max-w-xs shadow-2xl text-center flex flex-col items-center relative" onClick={(e) => e.stopPropagation()}>
             <button onClick={() => setSelectedMember(null)} className="absolute top-4 right-4 text-slate-400 p-2 font-bold text-xl">✕</button>
             <div className="w-24 h-24 rounded-full border-4 border-slate-50 overflow-hidden mb-4 shadow-md bg-slate-100">
-               <img src={`${selectedMember.image_url || selectedMember.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedMember.name)}`}`} className="w-full h-full object-cover" alt={selectedMember.name} />
+               {/* גם כאן עדכנתי את הלוגיקה של התמונה במודאל */}
+               <img src={selectedMember.image_url?.startsWith('data:') ? selectedMember.image_url : (selectedMember.image_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedMember.name)}`)} className="w-full h-full object-cover" alt={selectedMember.name} />
             </div>
             <h2 className="text-xl font-bold text-slate-800 mb-6">לדבר עם {selectedMember.name}?</h2>
             <button onClick={() => sendPrivateNotification(selectedMember)} disabled={loading} className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold text-lg mb-4 shadow-lg active:scale-95 transition-transform">{sentStatus || "שלחי קריאה ✨"}</button>

@@ -21,15 +21,21 @@ export async function POST(req: Request) {
   try {
     // --- תרחיש 1: שליחה אישית (לחיצה על תמונה) ---
     if (type === 'private' && targetPhone) {
-      await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
+      // ניקוי מספר הטלפון מרווחים או מקפים לפני השליחה
+      const cleanPhone = targetPhone.replace(/\D/g, '');
+      
+      const response = await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           token: token,
-          to: targetPhone,
+          to: cleanPhone,
           body: `הודעה מ-SeniorSafe: ${message || "תדברו איתי"}` 
         })
       });
+
+      const resData = await response.json();
+      if (!response.ok) console.error('UltraMsg Private Error:', resData);
 
       return NextResponse.json({ success: true, mode: 'private' });
     }
@@ -48,9 +54,10 @@ export async function POST(req: Request) {
         created_at: new Date().toISOString() 
       }]);
 
-    if (checkinError) console.error('שגיאה ברישום:', checkinError.message);
+    if (checkinError) console.error('שגיאה ברישום checkin:', checkinError.message);
 
-    // 2. משיכת אנשי הקשר של המשתמש
+    // 2. משיכת אנשי הקשר - שימי לב: מושכים רק phone ו-name! 
+    // זה קריטי כי image_url עכשיו מכיל טקסט Base64 כבד מאוד.
     const { data: contacts, error: dbError } = await supabase
       .from('contacts')
       .select('phone, name')
@@ -61,26 +68,34 @@ export async function POST(req: Request) {
     // 3. שליחת הודעות מדורגת (עם השהיה) למלווים
     if (contacts && contacts.length > 0) {
       for (const contact of contacts) {
+        if (!contact.phone) continue;
+
+        const cleanContactPhone = contact.phone.replace(/\D/g, '');
+
         await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({
             token: token,
-            to: contact.phone,
+            to: cleanContactPhone,
             body: "הודעה מ-SeniorSafe: אמא עדכנה שהכל בסדר איתה! ✨"
           })
         });
 
-        // המתנה של 3 שניות בין שליחה למלווה אחד לשני
-        console.log(`הודעת עדכון נשלחה ל-${contact.name || contact.phone}, ממתין...`);
+        // המתנה של 3 שניות כדי למנוע חסימה ב-WhatsApp/UltraMsg
+        console.log(`הודעת עדכון נשלחה ל-${contact.name || cleanContactPhone}, ממתין...`);
         await delay(3000); 
       }
     }
 
-    return NextResponse.json({ success: true, mode: 'broadcast', count: contacts?.length || 0 });
+    return NextResponse.json({ 
+      success: true, 
+      mode: 'broadcast', 
+      count: contacts?.length || 0 
+    });
 
   } catch (err: any) {
-    console.error('שגיאה כללית:', err.message);
+    console.error('שגיאה כללית ב-API:', err.message);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

@@ -18,7 +18,7 @@ export async function POST(req: Request) {
           
           <div style="background-color: #f0f7ff; border: 2px solid #2563eb; padding: 20px; border-radius: 12px; margin: 20px 0; text-align: center;">
             <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">הקישור האישי שלך לכניסה מהירה:</p>
-            <a href="https://bec.to/admin?email=${email}" 
+            <a href="https://senior.communicateclever.com/admin?email=${email}" 
                style="background-color: #2563eb; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
                לחצי כאן לכניסה לאפליקציה
             </a>

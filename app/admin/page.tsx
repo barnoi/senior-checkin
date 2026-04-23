@@ -58,40 +58,28 @@ export default function AdminPage() {
     newFamily[index] = { ...newFamily[index], [field]: value };
     setFamily(newFamily);
   };
+
+// הפונקציה המעודכנת לשימוש ב-Base64 כדי למנוע תקלות Storage
 const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
   const file = e.target.files?.[0];
   if (!file) return;
 
-  setLoading(true);
-  try {
-    // יצירת שם ייחודי לקובץ כדי שלא יהיו כפילויות
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-    
-    // 1. העלאה ל-Storage
-    const { error: uploadError } = await supabase.storage
-      .from('contact-images') // שם ה-Bucket שיצרת
-      .upload(fileName, file);
-
-    if (uploadError) throw uploadError;
-
-    // 2. קבלת הכתובת הציבורית
-    const { data } = supabase.storage
-      .from('contact-images')
-      .getPublicUrl(fileName);
-
-    // 3. עדכון הסטייט של המשפחה
-    handleLocalChange(index, 'image_url', data.publicUrl);
-    setMessage('התמונה הועלתה!');
-    setTimeout(() => setMessage(''), 2000);
-
-  } catch (err) {
-    console.error("Upload error:", err);
-    alert("שגיאה בהעלאת התמונה");
-  } finally {
-    setLoading(false);
+  // בדיקת גודל - Base64 מגדיל את נפח הקובץ, אז נגביל ל-1MB
+  if (file.size > 1024 * 1024) {
+    alert("התמונה כבדה מדי. אנא בחרי תמונה קטנה יותר (עד 1MB)");
+    return;
   }
+
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    const base64String = reader.result as string;
+    handleLocalChange(index, 'image_url', base64String);
+    setMessage('התמונה הוכנה!');
+    setTimeout(() => setMessage(''), 2000);
+  };
+  reader.readAsDataURL(file);
 };
+
   const saveAll = async () => {
   // 1. בדיקת הגנה: אם לא אישרו את התנאים, לא שומרים
   if (!agreedToTerms) {
@@ -111,7 +99,6 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 
 
   try {
     // שליפת השעה מהמלווה הראשון (השעה אחידה לכל המלווים של אותו לקוח)
-    // אם יש לך משתנה אחר ב-state ששומר את השעה, אפשר להשתמש בו במקום.
     const selectedTime = family[0]?.alert_time || "09:00";
 
     for (const member of family) {
@@ -124,21 +111,22 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 
       };
 
       if (member.id) {
-        // עדכון מלווה קיים - הוספנו את ה-payload המלא הכולל את השעה
+        // עדכון מלווה קיים
         const { error } = await supabase
           .from('contacts')
           .update(payload)
           .eq('id', member.id);
         if (error) throw error;
       } else {
-        // הוספת מלווה חדש - ה-payload כולל את השעה
+        // הוספת מלווה חדש
         const { error } = await supabase
           .from('contacts')
           .insert([payload]);
         if (error) throw error;
       }
     }
-// שליחת מייל ברוכים הבאים עם הוראות התקנה
+
+    // שליחת מייל ברוכים הבאים
     try {
       await fetch('/api/send-welcome', {
         method: 'POST',
@@ -149,6 +137,7 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 
     } catch (emailErr) {
       console.error('Failed to send welcome email:', emailErr);
     }
+
     setMessage('הכל נשמר בהצלחה! ✨');
     setTimeout(() => {
       window.location.href = '/checkin';
@@ -161,6 +150,7 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 
     setLoading(false);
   }
 };
+
   const addEmptyRow = () => {
     setFamily([...family, { name: '', phone: '', image_url: '' }]);
   };
@@ -325,14 +315,13 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 
     />
   </div>
 
-  {/* בחירת שעת יעד לעדכון - כאן ה"פלא" */}
+  {/* בחירת שעת יעד לעדכון */}
   <div className="space-y-2">
     <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">
       <span className="text-blue-500">⏰</span> מתי ההורה נוהג לעדכן?
     </label>
     <select 
       className="w-full p-4 bg-white border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-slate-700 shadow-sm"
-      // הערה: ניתן להוסיף שדה target_hour ל-State כדי לשמור את הבחירה ויזואלית
       onChange={(e) => {
         const targetHour = parseInt(e.target.value);
         const alertHour = (targetHour + 2).toString().padStart(2, '0') + ":00";
@@ -352,7 +341,8 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 
       * המערכת תשלח התראה שעתיים אחרי השעה שתבחרו.
     </p>
   </div>
-{/* הוספת כפתור העלאה מהגלריה */}
+
+{/* כפתור העלאה מהגלריה */}
 <div className="flex flex-col gap-2 mt-4 p-4 bg-blue-50/50 rounded-2xl border border-dashed border-blue-200">
   <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
     <span className="text-blue-500">📸</span> העלאת תמונה מהגלריה:
@@ -374,7 +364,8 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 
     </p>
   )}
 </div>
-  {/* קישור לתמונה */}
+
+  {/* קישור לתמונה ותצוגה מקדימה */}
   <div className="space-y-2">
     <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mr-1">
       <ImageIcon size={16} className="text-purple-500" /> קישור לתמונה {isVisible ? '' : '(לא חובה)'}
@@ -392,7 +383,7 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 
       <input 
         placeholder="הדביקי כאן קישור לתמונה"
         className="flex-1 p-4 bg-white border-none rounded-2xl ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-xs text-slate-500 transition-all"
-        value={member.image_url || ''}
+        value={member.image_url?.startsWith('data:') ? '' : (member.image_url || '')}
         onChange={(e) => handleLocalChange(index, 'image_url', e.target.value)}
       />
     </div>
