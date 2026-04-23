@@ -13,6 +13,7 @@ export default function LandingPage() {
   const [paid, setPaid] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [coupon, setCoupon] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -83,7 +84,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <header className="py-8 md:py-16 px-6 max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-12 items-center">
         
-        {/* Mockup - מופיע ראשון במובייל */}
+        {/* Mockup */}
         <div className="order-1 md:order-2 relative justify-self-center">
           <div className="relative mx-auto w-56 h-112.5 md:w-70 md:h-145 bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] border-8 md:border-12 border-slate-900 shadow-2xl overflow-hidden ring-8 ring-slate-100/50 transform rotate-1 md:rotate-2">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 md:w-24 h-5 md:h-6 bg-slate-900 rounded-b-2xl z-20 flex items-center justify-center">
@@ -231,16 +232,33 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="max-w-xs mx-auto">
+            <div className="max-w-xs mx-auto space-y-4">
               {!paid ? (
                 !showPayment ? (
                   <button onClick={() => setShowPayment(true)} className="w-full bg-blue-600 text-white py-4 rounded-xl font-black text-xl hover:bg-blue-700 transition shadow-xl animate-bounce">אני רוצה להצטרף</button>
                 ) : (
-                  <div className="bg-white p-4 rounded-xl shadow-inner min-h-37.5 flex flex-col items-center justify-center">
-                    <PayPalButton amount="1.00" onSuccess={() => { 
-                      setPaid(true); 
-                      setTimeout(() => { router.push("/admin"); }, 2000); 
-                    }} />
+                  <div className="flex flex-col gap-4">
+                    {/* שדה קוד קופון - נוסף כאן */}
+                    <input
+                      type="text"
+                      placeholder="קוד קופון (משפחה וחברים)"
+                      className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-white text-center font-bold placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition"
+                      value={coupon}
+                      onChange={(e) => {
+                        const val = e.target.value.toUpperCase();
+                        setCoupon(val);
+                        if (val === 'FREE-FAMILY20') {
+                          setPaid(true);
+                          setTimeout(() => { router.push("/admin"); }, 1500);
+                        }
+                      }}
+                    />
+                    <div className="bg-white p-4 rounded-xl shadow-inner min-h-37.5 flex flex-col items-center justify-center">
+                      <PayPalButton amount="199.00" onSuccess={() => { 
+                        setPaid(true); 
+                        setTimeout(() => { router.push("/admin"); }, 2000); 
+                      }} />
+                    </div>
                   </div>
                 )
               ) : (
@@ -253,11 +271,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* שאלות ותשובות */}
+      {/* שאלות ותשובות מורחבות */}
       <section className="py-16 px-6 bg-white">
         <h2 className="text-3xl font-black text-center mb-12 text-slate-900">שאלות נפוצות</h2>
         <div className="max-w-2xl mx-auto space-y-4 text-right" dir="rtl">
-          
           {[
             { 
               q: "איך מוסיפים את SeniorSafe כ\"אייקון\" על מסך הבית?", 
@@ -277,11 +294,11 @@ export default function LandingPage() {
             },
             { 
               q: "מה קורה בתום השנה? האם תהיה לי גישה לנתונים?", 
-              a: "נשלח לכם תזכורת ידידותית חודש לפני תום המנוי כדי שתוכלו לחדש אותו בקלות. לא ביצענו חיוב אוטומטי, כך שאתם תמיד בשליטה מלאה. במידה ותבחרו לא לחדש, המערכת תפסיק לשלוח התראות." 
+              a: "נשלח לכם תזכורת ידידותית חודש לפני תום המנוי כדי שתוכלו לחדש אותו בקלות. לא ביצענו חיוב אוטומטי, כך שאתם תמיד בשליטה מלאה." 
             },
             { 
               q: "האם המחיר של 199 ₪ יישאר לי גם בשנה הבאה?", 
-              a: "כן! כחלק מנבחרת המייסדים (Founders), אנחנו מתחייבים שהמחיר המיוחד שלכם יישמר גם בחידושים הבאים, גם אם המחיר ללקוחות חדשים יעלה בעתיד." 
+              a: "כן! כחלק מנבחרת המייסדים (Founders), אנחנו מתחייבים שהמחיר המיוחד שלכם יישמר גם בחידושים הבאים." 
             },
             { 
               q: "199 ₪ לשנה? זה הכל?", 
@@ -298,7 +315,6 @@ export default function LandingPage() {
               </p>
             </details>
           ))}
-          
         </div>
       </section>
 
