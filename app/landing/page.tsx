@@ -292,13 +292,27 @@ useEffect(() => {
                       placeholder="הזן קוד כאן"
                       className="w-full bg-slate-800/50 border border-slate-700 rounded-xl py-3 px-4 text-center text-white focus:border-blue-500 outline-none transition-all uppercase text-sm"
                       value={coupon}
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         const val = e.target.value.toUpperCase();
                         setCoupon(val);
                         if (val === 'FREE-FAMILY20') {
-                          setPaid(true);
-                          setTimeout(() => { router.push("/admin"); }, 1500);
-                        }
+  const email = prompt("אנא הזיני את המייל שלך כדי שנוכל לזהות אותך:");
+  if (!email || !email.includes('@')) {
+    alert("נא להזין כתובת מייל תקינה");
+    setCoupon('');
+    return;
+  }
+  const cleanEmail = email.trim().toLowerCase();
+  // שמירה ב-Supabase
+  await supabase.from('customers').upsert({ 
+    email: cleanEmail, 
+    payment_status: 'coupon',
+    plan_type: 'lifetime'
+  });
+  localStorage.setItem('senior_user_email', cleanEmail);
+  setPaid(true);
+  setTimeout(() => { router.push("/admin"); }, 1500);
+}
                       }}
                     />
                   </div>
