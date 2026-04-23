@@ -15,9 +15,21 @@ export default function LandingPage() {
   const [coupon, setCoupon] = useState('');
   const router = useRouter();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [spotsLeft, setSpotsLeft] = useState<number | null>(null);
+
+useEffect(() => {
+  setMounted(true);
+}, []);
+
+useEffect(() => {
+  const fetchSpots = async () => {
+    const { count } = await supabase
+      .from('customers')
+      .select('*', { count: 'exact', head: true });
+    setSpotsLeft(Math.max(0, 50 - (count || 0)));
+  };
+  fetchSpots();
+}, []);
 
   const testimonials = [
     { name: "מיכל כהן", role: "בת לניצול שואה", text: "זה שינה לנו את הבוקר. במקום להתקשר בלחץ, אני מקבלת הודעה כשהיא שותה את הקפה." },
@@ -98,9 +110,17 @@ export default function LandingPage() {
 
         {/* Text Section */}
         <div className="order-2 md:order-1 text-center md:text-right">
-          <span className="bg-blue-50 text-blue-800 px-3 py-1 rounded-lg text-[10px] md:text-xs font-bold mb-4 inline-block italic">
-            פיתוח של מרפאה בעיסוק מומחית לגיל השלישי
-          </span>
+          <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-4">
+  <span className="bg-blue-50 text-blue-800 px-3 py-1 rounded-lg text-[10px] font-bold italic">
+    👩‍⚕️ פותח על ידי מרפאה בעיסוק
+  </span>
+  <span className="bg-green-50 text-green-800 px-3 py-1 rounded-lg text-[10px] font-bold">
+    🇮🇱 מיוצר ומאוחסן בישראל
+  </span>
+  <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-lg text-[10px] font-bold">
+    🔒 אבטחה מלאה
+  </span>
+</div>
           <h1 className="text-3xl md:text-5xl font-black mb-6 leading-tight text-slate-800 tracking-tight">
             הדרך המכבדת לשמור <br/>
             על <span className={`text-blue-600 ${caveat.className} text-4xl md:text-6xl inline-block`} style={{ transform: 'rotate(-2deg)' }}>העצמאות של ההורים המתבגרים.</span>
@@ -226,7 +246,9 @@ export default function LandingPage() {
       {/* תשלום */}
       <section id="offer" className="py-16 px-6 text-center">
         <div className="max-w-3xl mx-auto bg-slate-900 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl border-b-12 border-blue-600">
-          <div className="bg-blue-600 text-white px-4 py-1 rounded-full font-black absolute top-2 left-1/2 transform -translate-x-1/2 text-[10px] uppercase tracking-widest italic">נשארו 50 מקומות למייסדים</div>
+          <div className="bg-blue-600 text-white px-4 py-1 rounded-full font-black absolute top-2 left-1/2 transform -translate-x-1/2 text-[10px] uppercase tracking-widest italic">
+  {spotsLeft === null ? 'טוען...' : `נשארו ${spotsLeft} מקומות למייסדים`}
+</div>
 
           <div className="mt-6">
             <h3 className="text-3xl md:text-4xl font-black mb-4 tracking-tighter">חבילת SeniorSafe Family</h3>
