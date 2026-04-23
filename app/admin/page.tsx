@@ -14,7 +14,10 @@ export default function AdminPage() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const fetchFamily = useCallback(async () => {
-    const userEmail = localStorage.getItem('senior_user_email');
+    // שליפת המייל וניקוי שלו
+    const rawEmail = localStorage.getItem('senior_user_email');
+    const userEmail = rawEmail ? rawEmail.toLowerCase().trim() : null;
+
     if (!userEmail) {
       setLoading(false);
       return;
@@ -36,7 +39,6 @@ export default function AdminPage() {
       setLoading(false);
     }
   }, []);
-
  useEffect(() => {
     setIsMounted(true);
 
@@ -45,10 +47,11 @@ export default function AdminPage() {
     const emailFromUrl = urlParams.get('email');
     
     if (emailFromUrl) {
-      // שמירה אוטומטית בזיכרון של הדפדפן כדי למנוע כשל בהתחברות
-      localStorage.setItem('senior_user_email', emailFromUrl);
-      console.log('User connected via magic link:', emailFromUrl);
-    }
+  // שמירה באותיות קטנות כדי למנוע בעיות התחברות
+  const cleanEmail = emailFromUrl.toLowerCase().trim();
+  localStorage.setItem('senior_user_email', cleanEmail);
+  console.log('User connected via magic link (cleaned):', cleanEmail);
+}
 
     fetchFamily();
   }, [fetchFamily]);
@@ -89,13 +92,14 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 
 
   setLoading(true);
   setMessage('שומר שינויים...');
-  const userEmail = localStorage.getItem('senior_user_email');
+  const rawEmail = localStorage.getItem('senior_user_email');
+const userEmail = rawEmail ? rawEmail.toLowerCase().trim() : null;
 
-  if (!userEmail) {
-    alert("שגיאה: מייל משתמש לא נמצא.");
-    setLoading(false);
-    return;
-  }
+if (!userEmail) {
+  alert("שגיאה: מייל משתמש לא נמצא.");
+  setLoading(false);
+  return;
+}
 
   try {
     // שליפת השעה מהמלווה הראשון (השעה אחידה לכל המלווים של אותו לקוח)

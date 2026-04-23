@@ -1,17 +1,28 @@
 'use client';
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function SuccessPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
+    // שליפת המייל מה-URL (בהנחה שפייפאל/מערכת התשלומים מחזירה אותו כפרמטר)
+    const email = searchParams.get('email');
+    
+    if (email) {
+      // שמירה ב-LocalStorage באותיות קטנות - קריטי לסנכרון שסידרנו!
+      localStorage.setItem('senior_user_email', email.toLowerCase().trim());
+      console.log('Payment success for:', email);
+    }
+
     // השהייה של 5 שניות כדי לאפשר קריאה של ההנחיות לפני מעבר אוטומטי
     const timer = setTimeout(() => {
       router.push('/admin');
     }, 5000);
+    
     return () => clearTimeout(timer);
-  }, [router]);
+  }, [router, searchParams]);
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 text-right" dir="rtl">
@@ -26,10 +37,10 @@ export default function SuccessPage() {
         
         <div className="bg-blue-50 p-6 rounded-3xl border border-blue-100 space-y-3 text-right">
           <p className="font-bold text-blue-800">מה עושים עכשיו?</p>
-          <ul className="text-sm text-blue-700 space-y-2 list-disc list-inside">
+          <ul className="text-sm text-blue-700 space-y-2 list-disc list-inside leading-relaxed">
             <li>אנחנו מעבירים אותך לדף ניהול המלווים.</li>
             <li><strong>חשוב:</strong> ודאו שאיש הקשר הראשון הוא המלווה הראשי לחירום.</li>
-            <li>לאחר מכן, תוכלו להתקין את האפליקציה אצל אמא.</li>
+            <li>לאחר מכן, תוכלו להתקין את האפליקציה אצל ההורה.</li>
           </ul>
         </div>
 

@@ -13,7 +13,10 @@ export default function Page() {
   const [sentStatus, setSentStatus] = useState<string | null>(null);
 
   const fetchFamily = useCallback(async () => {
-    const userEmail = localStorage.getItem('senior_user_email');
+    // שליפה מה-LocalStorage וניקוי המייל (אותיות קטנות)
+    const rawEmail = localStorage.getItem('senior_user_email');
+    const userEmail = rawEmail ? rawEmail.toLowerCase().trim() : null;
+
     if (!userEmail) {
       setLoading(false);
       return;
@@ -29,7 +32,8 @@ export default function Page() {
       if (error) throw error;
 
       if (!data || data.length === 0) {
-        localStorage.removeItem('senior_user_email');
+        // אם לא נמצאו נתונים, אנחנו לא מוחקים ישר את המייל (כדי לא לנתק משתמש בטעות)
+        // אלא רק מאפסים את הרשימה
         setFamily([]);
       } else {
         setFamily(data);
@@ -43,6 +47,18 @@ export default function Page() {
 
   useEffect(() => {
     setIsMounted(true);
+    
+    // בדיקה אם המשתמש הגיע מקישור במייל (עם ?email=...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailFromUrl = urlParams.get('email');
+    
+    if (emailFromUrl) {
+      // אם יש מייל בקישור, נשמור אותו בזיכרון של המכשיר
+      const cleanEmail = emailFromUrl.toLowerCase().trim();
+      localStorage.setItem('senior_user_email', cleanEmail);
+    }
+    
+    // טעינת הנתונים (תשתמש במייל מהקישור או מהזיכרון השמור)
     fetchFamily();
   }, [fetchFamily]);
 
@@ -75,7 +91,9 @@ export default function Page() {
     if (loading || checkedIn) return;
     setLoading(true);
     try {
-      const userEmail = localStorage.getItem('senior_user_email');
+      const rawEmail = localStorage.getItem('senior_user_email');
+      const userEmail = rawEmail ? rawEmail.toLowerCase().trim() : null;
+
       const response = await fetch('/api/send-all', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -110,7 +128,7 @@ export default function Page() {
       <main className="min-h-screen bg-slate-100 flex items-center justify-center p-6 text-center" dir="rtl">
         <div className="bg-white p-8 rounded-[2.5rem] shadow-xl max-w-sm border border-slate-200">
           <h1 className="text-xl font-bold text-slate-800 mb-2">גישה מוגבלת</h1>
-          <p className="text-slate-600 mb-6 text-sm">המייל אינו מזוהה. יש להירשם כמנוי כדי להשתמש בשירות.</p>
+          <p className="text-slate-600 mb-6 text-sm">המייל אינו מזוהה או שטרם הוגדרו מלווים.</p>
           <Link href="/landing" className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold shadow-lg inline-block">חזרה להרשמה</Link>
         </div>
       </main>
@@ -137,15 +155,12 @@ export default function Page() {
           {family.slice(0, 5).map((member, index) => {
             const pos = [{top:0,left:3},{top:5,left:65},{top:50,left:-3},{top:60,left:70},{top:70,left:25}][index];
             
-            // לוגיקת בחירת תמונה מתוקנת:
             const rawImg = member.image_url || member.img || "";
             let finalImage = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=random`;
             
             if (rawImg.startsWith('data:')) {
-              // זו תמונת Base64 שהעלינו מהגלריה - נציג אותה כמו שהיא
               finalImage = rawImg;
             } else if (rawImg.startsWith('http')) {
-              // זה קישור רגיל - נוסיף לו Timestamp למניעת Cache
               finalImage = `${rawImg}${rawImg.includes('?') ? '&' : '?'}v=${new Date().getTime()}`;
             }
 
@@ -190,7 +205,6 @@ export default function Page() {
           <div className="bg-white rounded-[2.5rem] p-8 w-full max-w-xs shadow-2xl text-center flex flex-col items-center relative" onClick={(e) => e.stopPropagation()}>
             <button onClick={() => setSelectedMember(null)} className="absolute top-4 right-4 text-slate-400 p-2 font-bold text-xl">✕</button>
             <div className="w-24 h-24 rounded-full border-4 border-slate-50 overflow-hidden mb-4 shadow-md bg-slate-100">
-               {/* גם כאן עדכנתי את הלוגיקה של התמונה במודאל */}
                <img src={selectedMember.image_url?.startsWith('data:') ? selectedMember.image_url : (selectedMember.image_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedMember.name)}`)} className="w-full h-full object-cover" alt={selectedMember.name} />
             </div>
             <h2 className="text-xl font-bold text-slate-800 mb-6">לדבר עם {selectedMember.name}?</h2>

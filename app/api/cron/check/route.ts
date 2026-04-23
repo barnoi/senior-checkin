@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-// פונקציית עזר להשהיה (Delay)
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
 export async function GET(request: Request) {
-  // אבטחה מותאמת ל-Vercel Cron
   const isCron = request.headers.get('x-vercel-cron') === '1';
   const isDev = process.env.NODE_ENV === 'development';
   
@@ -23,7 +21,6 @@ export async function GET(request: Request) {
     const currentHour = now.getHours().toString().padStart(2, '0') + ":00";
     const todayIso = new Date().toISOString().split('T')[0];
 
-    // שליפת אנשי הקשר עם השם מהעמודה הקיימת 'name'
     const { data: contacts, error: contError } = await supabase
       .from('contacts')
       .select('*, customers(payment_status)')
@@ -37,14 +34,17 @@ export async function GET(request: Request) {
     for (const contact of contacts || []) {
       if (contact.customers?.payment_status !== 'paid') continue;
 
+      // תיקון קריטי: הפיכת המייל לאותיות קטנות לפני החיפוש ב-Checkins
+      const cleanEmail = contact.customer_email.toLowerCase().trim();
+
       const { data: checkins } = await supabase
         .from('checkins')
         .select('id')
-        .eq('email', contact.customer_email)
+        .eq('email', cleanEmail) // מחפש לפי המייל הנקי
         .gte('created_at', todayIso);
 
       if (!checkins || checkins.length === 0) {
-        // שליחת ההודעה דרך UltraMsg
+        // שליחת ההודעה
         await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -55,7 +55,6 @@ export async function GET(request: Request) {
           })
         });
 
-        // --- כאן הוספתי את ההשהיה ---
         console.log(`הודעה נשלחה ל-${contact.name}, ממתין 5 שניות למניעת עומס...`);
         await delay(5000); 
       }

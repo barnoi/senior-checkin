@@ -70,15 +70,17 @@ export default function SignupPage() {
 
             <div className="space-y-4">
               <label className="block text-sm font-bold text-slate-700 mr-1">אימייל להגדרת החשבון:</label>
-              <input 
-                type="email" 
-                placeholder="your@email.com"
-                className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all text-left font-sans"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-
+              // בתוך ה-input, תוסיפי את ה-disabled:
+<input 
+  type="email" 
+  placeholder="your@email.com"
+  className={`w-full p-4 rounded-2xl outline-none transition-all text-left font-sans border-2 
+    ${loading ? 'bg-slate-200 cursor-not-allowed' : 'bg-slate-50 border-slate-100 focus:border-blue-500'}`}
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  required
+  disabled={loading} // חוסם שינוי מייל בזמן שהתשלום מעובד
+/>
               <div className="pt-4 min-h-37.5">
                 {isEmailValid ? (
                   <div key="paypal-container" className="animate-in fade-in zoom-in duration-300">
