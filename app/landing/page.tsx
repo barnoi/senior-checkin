@@ -32,13 +32,13 @@ useEffect(() => {
 }, []);
 
   const testimonials = [
-    { name: "מיכל כהן", role: "בת לניצול שואה", text: "זה שינה לנו את הבוקר. במקום להתקשר בלחץ, אני מקבלת הודעה כשהיא שותה את הקפה." },
-    { name: "דני לוי", role: "בן להורה יחיד", text: "סוף סוף אבא מרגיש שאני לא מעיק עליו, ואני רגוע שהוא התעורר והכל בסדר." },
-    { name: "רחל אברהם", role: "סבתא ל-12", text: "הכפתור הירוק כל כך פשוט. אני לוחצת וכל הילדים שלי יודעים מיד שאני בסדר." },
-    { name: "יוסי מזרחי", role: "מנהל הייטק", text: "השירות הזה נותן לי שקט נפשי באמצע יום עבודה עמוס. פשוט ויעיל." },
-    { name: "אורית גל", role: "בת להורים בקיבוץ", text: "זה פשוט נותן לנו להתחיל את היום בידיעה שהכל בסדר, בלי להפריע לשגרה שלהם." },
-    { name: "שמואל כץ", role: "גמלאי", text: "אני מרגש בטוח יותר בידיעה שהמשפחה שלי מחוברת אליי בלחיצת כפתור." }
-  ];
+  { name: "מיכל כהן", role: "בת לניצול שואה", text: "זה שינה לנו את הבוקר. במקום להתקשר בלחץ, אני מקבלת הודעה כשהיא שותה את הקפה.", img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=80&h=80&fit=crop&crop=face" },
+  { name: "דני לוי", role: "בן להורה יחיד", text: "סוף סוף אבא מרגיש שאני לא מעיק עליו, ואני רגוע שהוא התעורר והכל בסדר.", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" },
+  { name: "רחל אברהם", role: "סבתא ל-12", text: "הכפתור הירוק כל כך פשוט. אני לוחצת וכל הילדים שלי יודעים מיד שאני בסדר.", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face" },
+  { name: "יוסי מזרחי", role: "מנהל הייטק", text: "השירות הזה נותן לי שקט נפשי באמצע יום עבודה עמוס. פשוט ויעיל.", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" },
+  { name: "אורית גל", role: "בת להורים בקיבוץ", text: "זה פשוט נותן לנו להתחיל את היום בידיעה שהכל בסדר, בלי להפריע לשגרה שלהם.", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" },
+  { name: "שמואל כץ", role: "גמלאי", text: "אני מרגש בטוח יותר בידיעה שהמשפחה שלי מחוברת אליי בלחיצת כפתור.", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" }
+];
 
   const handleExistingUserLogin = async () => {
     const email = prompt("אנא הזן את האימייל איתו נרשמת למערכת:");
@@ -229,10 +229,12 @@ useEffect(() => {
             {testimonials.map((t, i) => (
               <div key={i} className="bg-slate-50 p-6 rounded-3xl border border-slate-100 shadow-sm italic text-right">
                 <div className="flex justify-end mb-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-lg font-black text-blue-600">
-                    {t.name.charAt(0)}
-                  </div>
-                </div>
+  <img 
+    src={t.img} 
+    alt={t.name}
+    className="w-10 h-10 rounded-full object-cover border-2 border-blue-100"
+  />
+</div>
                 <div className="text-yellow-400 text-xs mb-2">★★★★★</div>
                 <p className="text-slate-600 mb-4 text-xs md:text-sm font-medium leading-relaxed">"{t.text}"</p>
                 <div className="font-black text-slate-800 text-xs">{t.name}</div>
