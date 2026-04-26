@@ -28,11 +28,11 @@ export default function LandingPage() {
 
   const testimonials = [
     { name: "מיכל כהן", role: "בת לניצול שואה", text: "זה שינה לנו את הבוקר. במקום להתקשר בלחץ, אני מקבלת הודעה כשהיא שותה את הקפה.", img: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&fit=crop&crop=face" },
-    { name: "דני לוי", role: "בן להורה יחיד", text: "סוף סוף אבא מרגיש שאני לא מעיק עליו, ואני רגוע שהוא התעורר והכל בסדר.", img: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=80&h=80&fit=crop&crop=face" },
+    { name: "דני לוי", role: "בן להורה יחיד", text: "סוף סוף אבא מרגיש שאני לא מעיק עליו, ואני רגוע שהוא התעורר והכל בסדר.", img: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=80&h=80&fit=crop&crop=face" },
     { name: "רחל אברהם", role: "סבתא ל-12", text: "הכפתור הירוק כל כך פשוט. אני לוחצת וכל הילדים שלי יודעים מיד שאני בסדר.", img: "https://images.unsplash.com/photo-1566616213894-2d4e1baee5d8?w=80&h=80&fit=crop&crop=face" },
     { name: "יוסי מזרחי", role: "מנהל הייטק", text: "השירות הזה נותן לי שקט נפשי באמצע יום עבודה עמוס. פשוט ויעיל.", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&fit=crop&crop=face" },
     { name: "אורית גל", role: "בת להורים בקיבוץ", text: "זה פשוט נותן לנו להתחיל את היום בידיעה שהכל בסדר, בלי להפריע לשגרה שלהם.", img: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=80&h=80&fit=crop&crop=face" },
-    { name: "שמואל כץ", role: "גמלאי", text: "אני מרגיש בטוח יותר בידיעה שהמשפחה שלי מחוברת אליי בלחיצת כפתור.", img: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=80&h=80&fit=crop&crop=face" }
+    { name: "שמואל כץ", role: "גמלאי", text: "אני מרגיש בטוח יותר בידיעה שהמשפחה שלי מחוברת אליי בלחיצת כפתור.", img: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=80&h=80&fit=crop&crop=face" }
   ];
 
   const handleExistingUserLogin = async () => {
