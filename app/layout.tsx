@@ -12,6 +12,14 @@ export const metadata: Metadata = {
   title: "SeniorSafe | שקט נפשי למשפחה",
   description: "עדכון בוקר קל ונוח מההורים ישירות לוואטסאפ של הילדים",
   manifest: "/manifest.json",
+appleWebApp: {
+  capable: true,
+  statusBarStyle: "default",
+  title: "SeniorSafe",
+},
+icons: {
+  apple: "/app-screenshot.png",
+},
   // כאן הוספנו את ההגדרות לתצוגה המקדימה (וואטסאפ, פייסבוק וכו')
   openGraph: {
     title: "SeniorSafe | שקט נפשי למשפחה",
